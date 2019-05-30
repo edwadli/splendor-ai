@@ -1,2 +1,2 @@
 # splendor-ai
-splendor implementation and AIs that play it
+Splendor and AIs that play it
