@@ -4,7 +4,7 @@ import collections
 
 DevelopmentCard = collections.namedtuple(
   "DevelopmentCard", [
-    # The card's globally unique asset id.
+    # The game piece's globally unique asset id.
     "asset_id",
 
     # The card's level.

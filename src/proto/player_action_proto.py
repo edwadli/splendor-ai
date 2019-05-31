@@ -48,4 +48,7 @@ PlayerAction = collections.namedtuple(
 
     # Which deck to reserve from if topdecking.
     "topdeck_level",
+
+    # Claimed NobleTile::asset_id.
+    "noble_tile_id",
   ])

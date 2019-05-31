@@ -4,6 +4,9 @@ import collections
 
 NobleTile = collections.namedtuple(
   "NobleTile", [
+    # The game piece's globally unique asset id.
+    "asset_id",
+
     # Number of points the tile is worth.
     "points",
 
