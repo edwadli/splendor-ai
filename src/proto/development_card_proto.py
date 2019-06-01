@@ -7,7 +7,7 @@ DevelopmentCard = collections.namedtuple(
     # The game piece's globally unique asset id.
     "asset_id",
 
-    # The card's level.
+    # The card's level (of type Deck).
     "level",
 
     # Number of points the card is worth.

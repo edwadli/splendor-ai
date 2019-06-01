@@ -1,3 +1,5 @@
+import collections
+
 from src.proto.game_rules_proto import GameRules
 
 GAME_RULES = GameRules(
@@ -8,7 +10,7 @@ GAME_RULES = GameRules(
 	num_cards_revealed_per_level=4,
 	max_players=4,
 	min_players=2,
-	nongold_gem_removals_by_num_players=defaultdict(int, {
+	nongold_gem_removals_by_num_players=collections.defaultdict(int, {
 		2: 3,
 		3: 2,
 	}),

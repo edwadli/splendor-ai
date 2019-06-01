@@ -22,8 +22,3 @@ GameState = collections.namedtuple(
     # The index (to 'player_states') indicating whose turn it is.
     "turn",
   ])
-
-class Deck:
-    LEVEL_1 = 1
-    LEVEL_2 = 2
-    LEVEL_3 = 3
