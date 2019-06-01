@@ -1,6 +1,7 @@
 """Interface for agents and wrapper around PlayerState."""
 
 import abc
+import collections
 
 from src.game import gem_utils
 from src.proto.gem_proto import GemType
@@ -19,11 +20,11 @@ class Player(object):
 		
 		# Derived values from a player's purchased cards and nobles.
 		self._num_points = 0
-		self._gem_discounts = defaultdict(int)  # keyed by GemType
+		self._gem_discounts = collections.defaultdict(int)  # keyed by GemType
 		for card in player_state.purchased_cards:
 			self._num_points += card.points
 			self._gem_discounts[card.gem.type] += 1
-		for noble_tile in noble_tiles:
+		for noble_tile in player_state.noble_tiles:
 			self._num_points += noble_tile.points
 
 	@abc.abstractmethod
