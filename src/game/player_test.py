@@ -20,13 +20,13 @@ class TestPlayer(unittest.TestCase):
 
 	def test_Player(self):
 		dev_card = DevelopmentCard(
-			asset_id="1234",
+			asset_id="",
 			level=Deck.LEVEL_2,
 			points=3,
 			gem=gems.RED,
 			cost=[gems.RED] * 6)
 		noble_tile = NobleTile(
-			asset_id="4321",
+			asset_id="",
 			points=3,
 			gem_type_requirements=(
 				[GemType.RED] * 4 +
@@ -40,7 +40,7 @@ class TestPlayer(unittest.TestCase):
 			purchased_cards=[dev_card, dev_card],
 			unhidden_reserved_cards=[dev_card],
 			hidden_reserved_cards=[dev_card],
-			noble_tiles=[],
+			noble_tiles=[noble_tile],
 		)
 
 		result = FakePlayer(player_state)
@@ -49,7 +49,7 @@ class TestPlayer(unittest.TestCase):
 			{GemType.BLUE: 2, GemType.RED: 1})
 		self.assertEquals(result.reserved_cards, [dev_card, dev_card])
 		self.assertEquals(result.num_purchased_cards, 2)
-		self.assertEquals(result.num_points, 6)
+		self.assertEquals(result.num_points, 9)
 		self.assertEquals(result.gem_discounts, {GemType.RED: 2})
 
 

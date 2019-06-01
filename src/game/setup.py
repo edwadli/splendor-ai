@@ -4,8 +4,10 @@ import collections
 import random
 
 from src.game import gem_utils
+from src.proto.deck_proto import Deck
 from src.proto.game_state_proto import GameState
 from src.proto.gem_proto import GemType
+from src.proto.development_card_proto import DevelopmentCard
 from src.proto.player_state_proto import PlayerState
 
 def NewPlayerState():
@@ -58,5 +60,29 @@ def InitializeGameState(gamebox, num_players, random_seed=None):
 		noble_tiles=noble_tiles,
 		player_states=[NewPlayerState() for _ in range(num_players)],
 		turn=0,
+	)
+	return game_state
+
+
+def EmptyBlueDevelopmentCard():
+	"""Returns an empty, blue, level 1, free development card."""
+	card = DevelopmentCard(
+		asset_id="",
+		level=Deck.LEVEL_1,
+		points=0,
+		gem=GemType.BLUE,
+		cost=[]
+	)
+	return card
+
+
+def SinglePlayerEmptyGameState():
+	"""Returns an empty game state with a single player."""
+	game_state = GameState(
+		available_gems=[],
+		development_cards=collections.defaultdict(list),
+		noble_tiles=[],
+		player_states = [NewPlayerState()],
+		turn = 0
 	)
 	return game_state

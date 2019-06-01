@@ -4,14 +4,27 @@ import collections
 
 from src.game import gem_utils
 from src.game import player
-from src.proto.game_state_proto import Deck
+from src.proto.deck_proto import Deck
 
 
-def GetRevealedCards(game_state, game_rules):
-	"""Returns a dict from Deck to list of revealed development cards."""
+def GetRevealedCards(development_cards_dict, game_rules):
+	"""Returns a dict from Deck to list of revealed development cards.
+
+	The last N cards from each list are considered revealed cards. All
+	other cards are considered still part of the unrevealed decks.
+
+	Params:
+		development_cards_dict: Dict from Deck to list of
+			DevelopmentCards. Assumes all the cards in each list are
+			of the same level (as their key).
+		game_rules: GameRules object.
+
+	Returns:
+		A dict from Deck to list of DevelopmentCards.
+	"""
 	revealed_cards = collections.defaultdict(list)
 	cards_per_level = game_rules.num_cards_revealed_per_level
-	for deck, cards in game_state.development_cards:
+	for deck, cards in development_cards_dict.iteritems():
 		revealed_cards[deck] = cards[-cards_per_level:]
 	return revealed_cards
 
@@ -27,6 +40,9 @@ class OpponentState(player.Player):
 			raise AttributeError
 		return object.__getattribute__(self, attr)
 
+	def PlayTurn(self, player_game_state):
+		raise AttributeError("OpponentStates are data-only.")
+
 	@property
 	def num_hidden_reserved_cards(self):
 		return self.num_reserved_cards - len(self.unhidden_reserved_cards)
@@ -39,13 +55,15 @@ class PlayerGameState(object):
 		self._game_state = game_state
 		self._game_rules = game_rules
 		self._gem_counts = gem_utils.CountGems(game_state.available_gems)
-		self._revealed_cards = GetRevealedCards(game_state, game_rules)
+		self._revealed_cards = GetRevealedCards(
+			game_state.development_cards, game_rules)
 		# The order of 'self._opponent_states' respects the turn
 		# ordering, starting with the next player's state.
 		self._opponent_states = []
-		num_opponents = len(game_state.player_states) - 1
+		num_players = len(game_state.player_states)
+		num_opponents = num_players - 1
 		for i in range(num_opponents):
-			opponent_idx = (i + turn + 1) % num_players
+			opponent_idx = (i + game_state.turn + 1) % num_players
 			self._opponent_states.append(OpponentState(
 				game_state.player_states[opponent_idx]))
 

@@ -28,7 +28,7 @@ class Player(object):
 			self._num_points += noble_tile.points
 
 	@abc.abstractmethod
-	def PlayTurn(player_game_state):
+	def PlayTurn(self, player_game_state):
 		"""Returns a PlayerAction given the PlayerGameState."""
 		raise NotImplementedError("No implementation for PlayTurn method.")
 
