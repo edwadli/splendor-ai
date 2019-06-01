@@ -4,32 +4,13 @@ import collections
 
 GameState = collections.namedtuple(
   "GameState", [
-    # Number of gold gems.
-    "num_gold_gems",
+    # The Gems available for taking.
+    "available_gems",
 
-    # Number of blue gems.
-    "num_blue_gems",
-
-    # Number of green gems.
-    "num_green_gems",
-
-    # Number of red gems.
-    "num_red_gems",
-
-    # Number of brown gems.
-    "num_brown_gems",
-
-    # Number of white gems.
-    "num_white_gems",
-
-    # The level 1 DevelopmentCards. The last N cards are revealed cards.
-    "first_level_cards",
-
-    # The level 2 DevelopmentCards. The last N cards are revealed cards.
-    "second_level_cards",
-
-    # The level 3 DevelopmentCards. The last N cards are revealed cards.
-    "third_level_cards",
+    # The DevelopmentCards on the field. This is a defaultdict(list)
+    # from Deck to list of DevelopmentCards. The last N cards in each list
+    # are revealed and available for taking.
+    "development_cards",
 
     # NobleTiles available.
     "noble_tiles",
@@ -41,3 +22,8 @@ GameState = collections.namedtuple(
     # The index (to 'player_states') indicating whose turn it is.
     "turn",
   ])
+
+class Deck:
+    LEVEL_1 = 1
+    LEVEL_2 = 2
+    LEVEL_3 = 3

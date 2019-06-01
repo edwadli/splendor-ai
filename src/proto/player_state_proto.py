@@ -4,31 +4,16 @@ import collections
 
 PlayerState = collections.namedtuple(
   "PlayerState", [
-    # Number of gold gems.
-    "num_gold_gems",
+    # List of Gems held by player.
+    "gems",
 
-    # Number of blue gems.
-    "num_blue_gems",
-
-    # Number of green gems.
-    "num_green_gems",
-
-    # Number of red gems.
-    "num_red_gems",
-
-    # Number of brown gems.
-    "num_brown_gems",
-
-    # Number of white gems.
-    "num_white_gems",
-
-    # Purchased DevelopmentCards.
+    # List of purchased DevelopmentCards.
     "purchased_cards",
 
-    # Reserved DevelopmentCards.
-    "reserved_cards",
+    # List of reserved (non-hidden) DevelopmentCards.
+    "unhidden_reserved_cards",
 
-    # Hidden (reserved) DevelopmentCards. Note that reserved cards are
+    # List of reserved (hidden) DevelopmentCards. Note that reserved cards are
     # typically hidden when topdecked.
     "hidden_reserved_cards",
 

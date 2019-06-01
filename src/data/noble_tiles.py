@@ -1,21 +1,20 @@
 from src.proto.noble_tile_proto import NobleTile
+from src.proto.gem_proto import GemType
 
 # TODO: fill in with actual tile values
 NOBLE_TILES = [
 	NobleTile(
+		asset_id="900",
 		points=3,
-		blue_card_cost=4,
-		green_card_cost=4,
-		red_card_cost=0,
-		white_card_cost=0,
-		brown_card_cost=0
+		gem_type_requirements=(
+			[GemType.BLUE] * 4 +
+			[GemType.GREEN] * 4),
 	),
 	NobleTile(
+		asset_id="901",
 		points=3,
-		blue_card_cost=0,
-		green_card_cost=0,
-		red_card_cost=4,
-		white_card_cost=0,
-		brown_card_cost=4
+		gem_type_requirements=(
+			[GemType.RED] * 4 +
+			[GemType.BROWN] * 4),
 	),
 ]

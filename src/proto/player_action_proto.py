@@ -4,41 +4,11 @@ import collections
 
 PlayerAction = collections.namedtuple(
   "PlayerAction", [
-    # Number of gold gems taken.
-    "gold_taken",
+    # List of Gems taken from the field.
+    "gems_taken",
 
-    # Number of blue gems taken.
-    "blue_taken",
-
-    # Number of green gems taken.
-    "green_taken",
-
-    # Number of red gems taken.
-    "red_taken",
-
-    # Number of brown gems taken.
-    "brown_taken",
-
-    # Number of white gems taken.
-    "white_taken",
-
-    # Number of gold gems returned.
-    "gold_returned",
-
-    # Number of blue gems returned.
-    "blue_returned",
-
-    # Number of green gems returned.
-    "green_returned",
-
-    # Number of red gems returned.
-    "red_returned",
-
-    # Number of brown gems returned.
-    "brown_returned",
-
-    # Number of white gems returned.
-    "white_returned",
+    # List of Gems returned to the field.
+    "gems_returned",
 
     # Purchased DevelopmentCard::asset_id.
     "purchased_card_id",
@@ -46,7 +16,7 @@ PlayerAction = collections.namedtuple(
     # Reserved DevelopmentCard::asset_id.
     "reserved_card_id",
 
-    # Which deck to reserve from if topdecking.
+    # Which Deck to reserve from if topdecking.
     "topdeck_level",
 
     # Claimed NobleTile::asset_id.

@@ -1,5 +1,5 @@
+from src.data import gems
 from src.proto.development_card_proto import DevelopmentCard
-from src.proto.development_card_proto import GemType
 
 # TODO: fill in with actual third level card values
 THIRD_LEVEL_CARDS = [
@@ -7,11 +7,7 @@ THIRD_LEVEL_CARDS = [
 		asset_id="300",
 		level=3,
 		points=4,
-		gem=GemType.BLUE,
-		blue_cost=0,
-		green_cost=0,
-		red_cost=0,
-		white_cost=7,
-		brown_cost=0
+		gem=gems.BLUE,
+		cost=([gems.WHITE] * 7),
 	),
 ]
