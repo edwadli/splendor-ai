@@ -27,8 +27,8 @@ class Player(object):
 			self._num_points += noble_tile.points
 
 	@abc.abstractmethod
-	def PlayTurn(gamestate):
-		"""Returns a PlayerAction given the 'gamestate'."""
+	def PlayTurn(player_game_state):
+		"""Returns a PlayerAction given the PlayerGameState."""
 		raise NotImplementedError("No implementation for PlayTurn method.")
 
 	@property
@@ -38,6 +38,14 @@ class Player(object):
 	@property
 	def gem_counts(self):
 		return self._gem_counts
+	
+	@property
+	def unhidden_reserved_cards(self):
+		return self._unhidden_reserved_cards
+
+	@property
+	def hidden_reserved_cards(self):
+		return self._hidden_reserved_cards
 	
 	@property
 	def reserved_cards(self):
