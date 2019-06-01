@@ -15,6 +15,9 @@ def CountGems(gems_list):
 def GetGems(gem_counts):
 	"""Returns a list of Gems given a dict from GemType to counts."""
 	gems_list = []
-	for gem_type, count in gem_counts:
-		gems_list.append(Gem(type=gem_type))
+	for gem_type, count in gem_counts.iteritems():
+		if count < 0:
+			raise NotImplementedError("count cannot be negative")
+		for _ in range(count):
+			gems_list.append(Gem(type=gem_type))
 	return gems_list
