@@ -62,7 +62,8 @@ class Driver(object):
 		"""Returns the next agent's PlayerAction and updates the game state."""
 		turn = self._game_state.turn
 		agent_to_play = self._agents[turn]
-		game_view = player_game_state.PlayerGameState(self._game_state)
+		game_view = player_game_state.PlayerGameState(
+				self._game_state, self._game_rules)
 		# Get the agent's PlayerAction for this turn.
 		player_action = agent_to_play.PlayTurn(game_view)
 		# TODO: check if player_action is valid.

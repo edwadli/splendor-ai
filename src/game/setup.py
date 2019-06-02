@@ -79,7 +79,7 @@ def EmptyBlueDevelopmentCard():
 
 
 def EmptyNobleTile():
-	"""Returns a free, 0-point noble time."""
+	"""Returns a free, 0-point noble tiles."""
 	noble_tile = NobleTile(
 		asset_id="",
 		points=0,
