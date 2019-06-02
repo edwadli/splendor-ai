@@ -57,13 +57,24 @@ class Driver(object):
 		for player_agent in self._agents:
 			if not isinstance(player_agent, agent.Agent):
 				raise TypeError("Agents must be of type Agent")
-		self._last_player_action = None
 
-	def RunAgentTurn(self):
-		"""Runs a turn (played by an agent) and updates the game state."""
-		pass  # TODO
+	def RunNextTurn(self):
+		"""Returns the next agent's PlayerAction and updates the game state."""
+		turn = self._game_state.turn
+		agent_to_play = self._agents[turn]
+		game_view = player_game_state.PlayerGameState(self._game_state)
+		# Get the agent's PlayerAction for this turn.
+		player_action = agent_to_play.PlayTurn(game_view)
+		# TODO: check if player_action is valid.
+		if False:
+			raise ValueError(
+				"Agent " + str(turn) + "'s PlayerAction is invalid")
+		# TODO: update game state with player_action.
+		self._game_state = self._game_state
+		self._game_state._replace(turn=turn + 1 % len(self._agents))
+		return player_action
 
-	def GetWinner(self):
+	def GetWinners(self):
 		"""Returns the indices of the winners (as a tuple).
 		
 		If the returned tuple is empty, then RunAgentTurn()
@@ -87,10 +98,15 @@ class Driver(object):
 			if score == winning_score)
 		return winners
 
+	def RunGame(self):
+		"""Returns the winning agents' indices."""
+		while True:
+			winners = self.GetWinners()
+			if winners:
+				return winners
+			else:
+				_ = self.RunNextTurn()
+
 	@property
 	def game_state(self):
 		return self._game_state
-	
-	@property
-	def last_player_action(self):
-		return self._last_player_action
