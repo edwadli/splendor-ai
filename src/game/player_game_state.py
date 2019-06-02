@@ -149,6 +149,13 @@ class PlayerGameState(object):
 		num_cards_revealed = len(self.revealed_cards[deck])
 		num_cards_left = num_cards - num_cards_revealed
 		return num_cards_left > 0
+    
+        def GemLimit(self):
+                return self._game_rules.max_gems - sum(self._gem_counts)
+
+        def CanReserve(self):
+                return self._self_state.num_reserved_cards < self._game_rules.max_reserved_cards
+
 
 	@property
 	def gem_counts(self):
