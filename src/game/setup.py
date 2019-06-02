@@ -3,11 +3,13 @@
 import collections
 import random
 
+from src.data import gems
 from src.game import gem_utils
 from src.proto.deck_proto import Deck
 from src.proto.game_state_proto import GameState
 from src.proto.gem_proto import GemType
 from src.proto.development_card_proto import DevelopmentCard
+from src.proto.noble_tile_proto import NobleTile
 from src.proto.player_state_proto import PlayerState
 
 def NewPlayerState():
@@ -70,10 +72,20 @@ def EmptyBlueDevelopmentCard():
 		asset_id="",
 		level=Deck.LEVEL_1,
 		points=0,
-		gem=GemType.BLUE,
+		gem=gems.BLUE,
 		cost=[]
 	)
 	return card
+
+
+def EmptyNobleTile():
+	"""Returns a free, 0-point noble time."""
+	noble_tile = NobleTile(
+		asset_id="",
+		points=0,
+		gem_type_requirements=[]
+	)
+	return noble_tile
 
 
 def SinglePlayerEmptyGameState():

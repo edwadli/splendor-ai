@@ -29,7 +29,69 @@ def GetRevealedCards(development_cards_dict, game_rules):
 	return revealed_cards
 
 
-class OpponentState(player.Player):
+def CountPoints(player_state):
+	"""Returns the number of points given a PlayerState."""
+	num_points = 0
+	for card in player_state.purchased_cards:
+		num_points += card.points
+	for noble_tile in player_state.noble_tiles:
+		num_points += noble_tile.points
+	return num_points
+
+
+class SelfState(object):
+	"""Wrapper for PlayerState."""
+	def __init__(self, player_state):
+		"""Precomputes relevant values of player_state."""
+		self._player_state = player_state
+		self._gem_counts = gem_utils.CountGems(player_state.gems)
+		self._unhidden_reserved_cards = player_state.unhidden_reserved_cards
+		self._hidden_reserved_cards = player_state.hidden_reserved_cards
+		
+		# Derived values from a player's purchased cards and nobles.
+		self._num_points = CountPoints(player_state)
+		self._gem_discounts = collections.defaultdict(int)  # keyed by GemType
+		for card in player_state.purchased_cards:
+			self._gem_discounts[card.gem.type] += 1
+
+	@property
+	def player_state(self):
+		return self._player_state
+
+	@property
+	def gem_counts(self):
+		return self._gem_counts
+	
+	@property
+	def unhidden_reserved_cards(self):
+		return self._unhidden_reserved_cards
+
+	@property
+	def hidden_reserved_cards(self):
+		return self._hidden_reserved_cards
+	
+	@property
+	def reserved_cards(self):
+		return self._unhidden_reserved_cards + self._hidden_reserved_cards
+	
+	@property
+	def num_purchased_cards(self):
+		return len(self.player_state.purchased_cards)
+	
+	@property
+	def num_reserved_cards(self):
+		return len(self.reserved_cards)
+
+	@property
+	def num_points(self):
+		return self._num_points
+	
+	@property
+	def gem_discounts(self):
+		return self._gem_discounts
+
+
+class OpponentState(SelfState):
 	"""Wrapper for PlayerState as it would appear to an opponent."""
 	def __getattribute__(self, attr):
 		private_attributes = [
@@ -39,9 +101,6 @@ class OpponentState(player.Player):
 		if attr in private_attributes:
 			raise AttributeError
 		return object.__getattribute__(self, attr)
-
-	def PlayTurn(self, player_game_state):
-		raise AttributeError("OpponentStates are data-only.")
 
 	@property
 	def num_hidden_reserved_cards(self):
@@ -66,6 +125,9 @@ class PlayerGameState(object):
 			opponent_idx = (i + game_state.turn + 1) % num_players
 			self._opponent_states.append(OpponentState(
 				game_state.player_states[opponent_idx]))
+		curr_player_idx = game_state.turn
+		self._self_state = SelfState(
+			game_state.player_states[curr_player_idx])
 
 	def CanTakeTwo(self, gem_type):
 		"""Returns whether the player can take two of the gem type.
@@ -96,6 +158,10 @@ class PlayerGameState(object):
 	def revealed_cards(self):
 		return self._revealed_cards
 
+	@property
+	def self_state(self):
+		return self._self_state
+	
 	@property
 	def opponent_states(self):
 		return self._opponent_states

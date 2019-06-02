@@ -6,12 +6,12 @@ import unittest
 from src.data import game_rules
 from src.data import gems
 from src.game import gem_utils
-from src.game import player
 from src.game import player_game_state
 from src.game import setup
 from src.proto.deck_proto import Deck
 from src.proto.development_card_proto import DevelopmentCard
 from src.proto.gem_proto import GemType
+from src.proto.noble_tile_proto import NobleTile
 from src.proto.player_state_proto import PlayerState
 
 
@@ -43,12 +43,44 @@ class TestPlayerGameState(unittest.TestCase):
 			Deck.LEVEL_3: [],
 		})
 
-	def test_OpponentStateIsPlayer(self):
+	def test_SelfState(self):
+		dev_card = DevelopmentCard(
+			asset_id="",
+			level=Deck.LEVEL_2,
+			points=3,
+			gem=gems.RED,
+			cost=[gems.RED] * 6)
+		noble_tile = NobleTile(
+			asset_id="",
+			points=3,
+			gem_type_requirements=(
+					[GemType.RED] * 4 +
+				[GemType.WHITE] * 4))
+		player_state = PlayerState(
+			gems=[
+				gems.BLUE,
+				gems.RED,
+				gems.BLUE,
+			],
+			purchased_cards=[dev_card, dev_card],
+			unhidden_reserved_cards=[dev_card],
+			hidden_reserved_cards=[dev_card],
+			noble_tiles=[noble_tile],
+		)
+
+		result = player_game_state.SelfState(player_state)
+		self.assertEquals(result.player_state, player_state)
+		self.assertEquals(result.gem_counts,
+			{GemType.BLUE: 2, GemType.RED: 1})
+		self.assertEquals(result.reserved_cards, [dev_card, dev_card])
+		self.assertEquals(result.num_purchased_cards, 2)
+		self.assertEquals(result.num_points, 9)
+		self.assertEquals(result.gem_discounts, {GemType.RED: 2})
+
+	def test_OpponentStateIsSelfState(self):
 		opponent_state = player_game_state.OpponentState(
 			setup.NewPlayerState())
-		self.assertIsInstance(opponent_state, player.Player)
-		with self.assertRaises(AttributeError):
-			_ = opponent_state.PlayTurn(None)
+		self.assertIsInstance(opponent_state, player_game_state.SelfState)
 
 	def test_OpponentStateHidesHiddenReservedCards(self):
 		player_state = setup.NewPlayerState()
