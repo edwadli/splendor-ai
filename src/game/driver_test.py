@@ -68,7 +68,7 @@ class TestDriver(unittest.TestCase):
     with self.assertRaises(TypeError):
       driver.Driver(agents, gamebox=gamebox.GAMEBOX)
 
-  def test_DriverGetWinner(self):
+  def test_DriverGetWinners(self):
     agents = [FakeAgent(), FakeAgent()]
     game_state = setup.SinglePlayerEmptyGameState()._replace(
       player_states=[
@@ -80,7 +80,7 @@ class TestDriver(unittest.TestCase):
     game_driver = driver.Driver(
       agents, game_state=game_state,
       game_rules=game_rules.GAME_RULES)
-    winners = game_driver.GetWinner()
+    winners = game_driver.GetWinners()
     self.assertEquals(winners, (1,))
 
   def test_DriverWinnerButNeedToCompleteRound(self):
@@ -95,10 +95,10 @@ class TestDriver(unittest.TestCase):
     game_driver = driver.Driver(
       agents, game_state=game_state,
       game_rules=game_rules.GAME_RULES)
-    winners = game_driver.GetWinner()
+    winners = game_driver.GetWinners()
     self.assertEquals(winners, tuple())
 
-  def test_DriverGetWinnerWithTieBreak(self):
+  def test_DriverGetWinnersWithTieBreak(self):
     agents = [FakeAgent(), FakeAgent()]
     game_state = setup.SinglePlayerEmptyGameState()._replace(
       player_states=[
@@ -113,10 +113,10 @@ class TestDriver(unittest.TestCase):
     game_driver = driver.Driver(
       agents, game_state=game_state,
       game_rules=game_rules.GAME_RULES)
-    winners = game_driver.GetWinner()
+    winners = game_driver.GetWinners()
     self.assertEquals(winners, (1,))
 
-  def test_DriverGetWinnerTie(self):
+  def test_DriverGetWinnersTie(self):
     agents = [FakeAgent(), FakeAgent()]
     game_state = setup.SinglePlayerEmptyGameState()._replace(
       player_states=[
@@ -128,10 +128,10 @@ class TestDriver(unittest.TestCase):
     game_driver = driver.Driver(
       agents, game_state=game_state,
       game_rules=game_rules.GAME_RULES)
-    winners = game_driver.GetWinner()
+    winners = game_driver.GetWinners()
     self.assertEquals(winners, (0, 1))
 
-  def test_DriverGetWinnerNone(self):
+  def test_DriverGetWinnersNone(self):
     agents = [FakeAgent(), FakeAgent()]
     game_state = setup.SinglePlayerEmptyGameState()._replace(
       player_states=[
@@ -143,7 +143,7 @@ class TestDriver(unittest.TestCase):
     game_driver = driver.Driver(
       agents, game_state=game_state,
       game_rules=game_rules.GAME_RULES)
-    winners = game_driver.GetWinner()
+    winners = game_driver.GetWinners()
     self.assertEquals(winners, tuple())
 
   def test_DriverRunAgentTurn(self):
