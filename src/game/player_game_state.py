@@ -38,6 +38,21 @@ def CountPoints(player_state):
 		num_points += noble_tile.points
 	return num_points
 
+def GetCardByID(player_game_state, card_id):
+        for deck in xrange(1, 4):
+                for card in player_game_state.revealed_cards[deck]:
+                        if card.asset_id == card_id:
+                                 return card
+        for card in self_state.reserved_cards:
+                if card.asset_id == card_id:
+                        return card
+        return False
+
+def GetNobleById(player_game_state, noble_id):
+        for noble in player_game_state.noble_tiles:
+            if noble.asset_id == noble_id:
+                return noble
+        return False
 
 class SelfState(object):
 	"""Wrapper for PlayerState."""
@@ -116,6 +131,7 @@ class PlayerGameState(object):
 		self._gem_counts = gem_utils.CountGems(game_state.available_gems)
 		self._revealed_cards = GetRevealedCards(
 			game_state.development_cards, game_rules)
+                self._noble_tiles = game_state.noble_tiles
 		# The order of 'self._opponent_states' respects the turn
 		# ordering, starting with the next player's state.
 		self._opponent_states = []
@@ -151,7 +167,7 @@ class PlayerGameState(object):
 		return num_cards_left > 0
     
         def GemLimit(self):
-                return self._game_rules.max_gems - sum(self._gem_counts)
+                return self._game_rules.max_gems - sum(self._self_state.gem_counts)
 
         def CanReserve(self):
                 return self._self_state.num_reserved_cards < self._game_rules.max_reserved_cards
@@ -164,6 +180,10 @@ class PlayerGameState(object):
 	@property
 	def revealed_cards(self):
 		return self._revealed_cards
+
+        @property
+        def noble_tiles(self):
+                return self._noble_tiles
 
 	@property
 	def self_state(self):
