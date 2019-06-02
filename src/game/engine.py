@@ -60,7 +60,7 @@ def check_player_action(player_game_state, player_action):
                 return False
             for i in xrange(2, 7):
                 if player_action.gems_taken[i]:
-                    if not player_game_state.CanTakeTwo(i)
+                    if not player_game_state.CanTakeTwo(i):
                         return False
 
     # Buying a card
