@@ -148,7 +148,6 @@ class PlayerGameState(object):
 		                 str(asset_id) + " found for player [" +
 		                 self._game_state.turn + "].")
 
-
 	def GetNobleById(noble_id):
     for noble in self.noble_tiles:
       if noble.asset_id == noble_id:
