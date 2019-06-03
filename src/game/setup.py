@@ -4,7 +4,6 @@ import collections
 import copy
 import random
 
-from src.data import gems
 from src.game import gem_utils
 from src.proto.deck_proto import Deck
 from src.proto.game_state_proto import GameState
@@ -71,7 +70,7 @@ def EmptyBlueDevelopmentCard():
 		asset_id="",
 		level=Deck.LEVEL_1,
 		points=0,
-		gem=gems.BLUE,
+		gem=GemType.BLUE,
 		cost={}
 	)
 	return card

@@ -2,12 +2,6 @@
 
 import collections
 
-Gem = collections.namedtuple(
-	"Gem", [
-		# The GemType (color).
-		"type",
-	])
-
 class GemType:
   BLUE = 1
   GREEN = 2

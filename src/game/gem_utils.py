@@ -2,14 +2,12 @@
 
 import collections
 
-from src.proto.gem_proto import Gem
-
 
 def CountGems(gems_list):
-	"""Returns dict of (GemType, count) of list of gems."""
+	"""Returns dict of (GemType, count) of list of GemTypes."""
 	counts = collections.defaultdict(int)
 	for gem in gems_list:
-		counts[gem.type] += 1
+		counts[gem] += 1
 	return counts
 
 def GetGems(gem_counts):
@@ -19,5 +17,5 @@ def GetGems(gem_counts):
 		if count < 0:
 			raise NotImplementedError("count cannot be negative")
 		for _ in range(count):
-			gems_list.append(Gem(type=gem_type))
+			gems_list.append(gem_type)
 	return gems_list

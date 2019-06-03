@@ -4,7 +4,7 @@ import collections
 
 Gamebox = collections.namedtuple(
   "Gamebox", [
-    # Gems available.
+    # Gems available. A defaultdict(int) keyed by GemType.
     "gems",
 
     # Development cards available.

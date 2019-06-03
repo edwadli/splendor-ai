@@ -2,7 +2,6 @@
 
 import unittest
 
-from src.data import gems
 from src.game import gem_utils
 from src.proto.gem_proto import GemType
 
@@ -10,7 +9,7 @@ from src.proto.gem_proto import GemType
 class TestGemUtils(unittest.TestCase):
 
 	def test_CountGems(self):
-		gems_list = [gems.RED, gems.BLUE, gems.RED]
+		gems_list = [GemType.RED, GemType.BLUE, GemType.RED]
 		gem_counts = gem_utils.CountGems(gems_list)
 		self.assertEquals(gem_counts, {
 			GemType.RED: 2,
@@ -29,10 +28,10 @@ class TestGemUtils(unittest.TestCase):
 		}
 		gems_list = gem_utils.GetGems(gem_counts)
 		self.assertEquals(sorted(gems_list), [
-			gems.BROWN,
-			gems.GOLD,
-			gems.GOLD,
-			gems.GOLD,
+			GemType.BROWN,
+			GemType.GOLD,
+			GemType.GOLD,
+			GemType.GOLD,
 		])
 
 
