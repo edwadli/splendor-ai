@@ -10,3 +10,9 @@ To run all unit tests:
 ```
 ./src/run_all_tests.sh
 ```
+
+To clear .pyc files:
+```
+find . -name '*.pyc' -delete
+```
+  

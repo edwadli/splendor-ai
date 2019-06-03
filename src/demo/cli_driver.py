@@ -54,5 +54,5 @@ class CliDriver(driver.Driver):
         self.game_state.development_cards, self.game_rules)
     msg += "\n\n"
     msg += "Nobles:\n"
-    msg += str(self.game_state.noble_tiles)
+    msg += cli_utils.NoblesAsString(self.game_state.noble_tiles)
     return msg

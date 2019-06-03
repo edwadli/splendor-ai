@@ -1,3 +1,6 @@
 *.sublime-project
 splendor-ai.sublime-workspace
 *.pyc
+.DS_Store
+src/.DS_Store
+

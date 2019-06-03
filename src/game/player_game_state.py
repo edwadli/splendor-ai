@@ -3,7 +3,6 @@
 import collections
 
 from src.game import gem_utils
-from src.game import player
 from src.proto.deck_proto import Deck
 
 
