@@ -111,3 +111,7 @@ class Driver(object):
 	@property
 	def game_state(self):
 		return self._game_state
+
+	@property
+	def game_rules(self):
+		return self._game_rules
