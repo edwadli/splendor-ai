@@ -40,11 +40,11 @@ def DeckAsString(deck):
     raise ValueError("No CLI string for given Deck")
 
 
-def GemsAsString(gems_list, separator="\n"):
-  msg = ""
-  gem_counts = gem_utils.CountGems(gems_list)
-  for gem_type, count in gem_counts.iteritems():
-    msg += GemTypeToSymbol(gem_type) + ": " + str(count) + separator
+def GemsAsString(gems, separator="\n"):
+  items = []
+  for gem_type, count in gems.iteritems():
+    items.append(GemTypeToSymbol(gem_type) + ":" + str(count))
+  msg = "  ".join(items)
   return msg
 
 
@@ -52,7 +52,7 @@ def CardsListAsString(cards):
   msg = ""
   for card in cards:
     msg += "{"
-    msg += "(" + str(card.points) + "|" + GemTypeToSymbol(card.gem.type) + ") "
+    msg += "(" + str(card.points) + "|" + GemTypeToSymbol(card.gem) + ") "
     msg += "["
     msg += GemsAsString(card.cost, separator="  ")
     msg += "]"
@@ -76,8 +76,6 @@ def NoblesAsString(noble_tiles):
   msg = ""
   for noble_tile in noble_tiles:
     msg += "{(" + str(noble_tile.points) + ") ["
-    gem_counts = collections.Counter(noble_tile.gem_type_requirements)
-    for gem_type, count in gem_counts.iteritems():
-      msg += GemTypeToSymbol(gem_type) + ": " + str(count) + "  "
+    msg += GemsAsString(noble_tile.gem_type_requirements, separator="  ")
     msg += "]}\n"
   return msg
