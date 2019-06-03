@@ -4,7 +4,6 @@ import unittest
 
 # TODO: use test data instead of real game_rules itself.
 from src.data import game_rules
-from src.data import gems
 from src.game import gem_utils
 from src.game import player_game_state
 from src.game import setup
@@ -123,7 +122,7 @@ class TestPlayerGameState(unittest.TestCase):
 		self.assertTrue(state.CanTopDeck(Deck.LEVEL_1))
 		self.assertFalse(state.CanTopDeck(Deck.LEVEL_2))
 
-	'''def test_PlayerGameStateHasOpponentStates(self):
+	def test_PlayerGameStateHasOpponentStates(self):
 		player_states = [
 			setup.NewPlayerState()._replace(gems={GemType.RED: 1}),
 			setup.NewPlayerState()._replace(gems={GemType.BLUE: 1}),
@@ -136,15 +135,15 @@ class TestPlayerGameState(unittest.TestCase):
 		)
 		state = player_game_state.PlayerGameState(
 			game_state, game_rules.GAME_RULES)
-		opponent_gems = {}
+		opponent_gems = []
 		for opp in state.opponent_states:
-			opponent_gems.append(gem_utils.GetGems(opp.gem_counts)[0])
+			opponent_gems.append(opp.gem_counts)
 		expected_opponent_gems = [
-			player_states[2].gems[0],
-			player_states[3].gems[0],
-			player_states[0].gems[0],
+			player_states[2].gems,
+			player_states[3].gems,
+			player_states[0].gems,
 		]
-		self.assertEquals(opponent_gems, expected_opponent_gems)'''
+		self.assertEquals(opponent_gems, expected_opponent_gems)
 
 
 if __name__ == "__main__":

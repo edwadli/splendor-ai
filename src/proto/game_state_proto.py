@@ -4,7 +4,7 @@ import collections
 
 GameState = collections.namedtuple(
   "GameState", [
-    # The Gems available for taking.
+    # The gems available for taking. A defaultdict(int) keyed by GemType.
     "available_gems",
 
     # The DevelopmentCards on the field. This is a defaultdict(list)
