@@ -4,10 +4,10 @@ import collections
 
 PlayerAction = collections.namedtuple(
   "PlayerAction", [
-    # List of Gems taken from the field.
+    # Dictionary of Gems taken from the field.
     "gems_taken",
 
-    # List of Gems returned to the field.
+    # Dictionary of Gems returned to the field.
     "gems_returned",
 
     # Purchased DevelopmentCard::asset_id.

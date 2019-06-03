@@ -10,6 +10,6 @@ NobleTile = collections.namedtuple(
     # Number of points the tile is worth.
     "points",
 
-    # The list of GemType discounts that this tile requires.
+    # The dictionary of GemType discounts that this tile requires.
     "gem_type_requirements",
   ])

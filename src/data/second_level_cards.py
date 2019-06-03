@@ -1,6 +1,6 @@
-from src.data import gems
 from src.proto.deck_proto import Deck
 from src.proto.development_card_proto import DevelopmentCard
+from src.proto.gem_proto import GemType
 
 # TODO: fill in with actual second level card values
 SECOND_LEVEL_CARDS = [
@@ -8,7 +8,7 @@ SECOND_LEVEL_CARDS = [
 		asset_id="200",
 		level=Deck.LEVEL_2,
 		points=3,
-		gem=gems.BLUE,
-		cost=([gems.BLUE] * 6),
+		gem=GemType.BLUE,
+		cost={GemType.BLUE: 6},
 	),
 ]

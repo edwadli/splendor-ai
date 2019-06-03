@@ -42,7 +42,7 @@ class SelfState(object):
   def __init__(self, player_state):
     """Precomputes relevant values of player_state."""
     self._player_state = player_state
-    self._gem_counts = gem_utils.CountGems(player_state.gems)
+    self._gem_counts = player_state.gems
     self._unhidden_reserved_cards = player_state.unhidden_reserved_cards
     self._hidden_reserved_cards = player_state.hidden_reserved_cards
     
@@ -50,7 +50,7 @@ class SelfState(object):
     self._num_points = CountPoints(player_state)
     self._gem_discounts = collections.defaultdict(int)  # keyed by GemType
     for card in player_state.purchased_cards:
-      self._gem_discounts[card.gem.type] += 1
+      self._gem_discounts[card.gem] += 1
 
   @property
   def player_state(self):
@@ -111,7 +111,7 @@ class PlayerGameState(object):
     """Precomputes relevant values of game_state."""
     self._game_state = game_state
     self._game_rules = game_rules
-    self._gem_counts = gem_utils.CountGems(game_state.available_gems)
+    self._gem_counts = game_state.available_gems
     self._revealed_cards = GetRevealedCards(
       game_state.development_cards, game_rules)
     self._noble_tiles = game_state.noble_tiles

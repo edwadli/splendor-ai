@@ -4,11 +4,10 @@ import unittest
 
 # TODO: use test data instead of real gamebox itself.
 from src.data import gamebox
-from src.data import gems
 from src.game import setup
 from src.proto.deck_proto import Deck
 from src.proto.game_state_proto import GameState
-
+from src.proto.gem_proto import GemType
 
 class TestSetup(unittest.TestCase):
 
@@ -38,13 +37,13 @@ class TestSetup(unittest.TestCase):
 			gamebox.GAMEBOX, num_players, random_seed=0)
 		
 		# Check that all gems are used.
-		self.assertEquals(sorted(game_state.available_gems),
-			[gems.BLUE] * 7 +
-			[gems.GREEN] * 7 +
-			[gems.RED] * 7 +
-			[gems.WHITE] * 7 +
-			[gems.BROWN] * 7 +
-			[gems.GOLD] * 5)
+		self.assertEquals(game_state.available_gems,
+			{GemType.BLUE: 7,
+			GemType.GREEN: 7,
+			GemType.RED: 7,
+			GemType.WHITE: 7,
+			GemType.BROWN: 7,
+			GemType.GOLD: 5})
 		self._AssertAllDecksExist(game_state)
 		self._AssertNumberNobles(game_state, num_players)
 		self._AssertPlayerStates(game_state, num_players)
@@ -55,13 +54,13 @@ class TestSetup(unittest.TestCase):
 			gamebox.GAMEBOX, num_players, random_seed=0)
 		
 		# Check that all gems are used.
-		self.assertEquals(sorted(game_state.available_gems),
-			[gems.BLUE] * 5 +
-			[gems.GREEN] * 5 +
-			[gems.RED] * 5 +
-			[gems.WHITE] * 5 +
-			[gems.BROWN] * 5 +
-			[gems.GOLD] * 5)
+		self.assertEquals(game_state.available_gems,
+			{GemType.BLUE: 5,
+			GemType.GREEN: 5,
+			GemType.RED: 5,
+			GemType.WHITE: 5,
+			GemType.BROWN: 5,
+			GemType.GOLD: 5})
 		self._AssertAllDecksExist(game_state)
 		self._AssertNumberNobles(game_state, num_players)
 		self._AssertPlayerStates(game_state, num_players)
@@ -72,13 +71,13 @@ class TestSetup(unittest.TestCase):
 			gamebox.GAMEBOX, num_players, random_seed=0)
 		
 		# Check that all gems are used.
-		self.assertEquals(sorted(game_state.available_gems),
-			[gems.BLUE] * 4 +
-			[gems.GREEN] * 4 +
-			[gems.RED] * 4 +
-			[gems.WHITE] * 4 +
-			[gems.BROWN] * 4 +
-			[gems.GOLD] * 5)
+		self.assertEquals(game_state.available_gems,
+			{GemType.BLUE: 4,
+			GemType.GREEN: 4,
+			GemType.RED: 4,
+			GemType.WHITE: 4,
+			GemType.BROWN: 4,
+			GemType.GOLD: 5})
 		self._AssertAllDecksExist(game_state)
 		self._AssertNumberNobles(game_state, num_players)
 		self._AssertPlayerStates(game_state, num_players)

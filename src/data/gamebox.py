@@ -1,19 +1,19 @@
 from src.data import first_level_cards
 from src.data import game_rules
-from src.data import gems
 from src.data import noble_tiles
 from src.data import second_level_cards
 from src.data import third_level_cards
 from src.proto.gamebox_proto import Gamebox
+from src.proto.gem_proto import GemType
 
 GAMEBOX = Gamebox(
-	gems=(
-		[gems.GOLD] * 5 +
-		[gems.BLUE] * 7 +
-		[gems.GREEN] * 7 +
-		[gems.RED] * 7 +
-		[gems.BROWN] * 7 +
-		[gems.WHITE] * 7),
+	gems={
+		GemType.GOLD: 5,
+		GemType.BLUE: 7,
+		GemType.GREEN: 7,
+		GemType.RED: 7,
+		GemType.BROWN: 7,
+		GemType.WHITE: 7},
 	development_cards=(
 		first_level_cards.FIRST_LEVEL_CARDS +
 		second_level_cards.SECOND_LEVEL_CARDS +

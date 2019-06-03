@@ -1,6 +1,7 @@
 """Utils for setting up the game."""
 
 import collections
+import copy
 import random
 
 from src.data import gems
@@ -15,7 +16,7 @@ from src.proto.player_state_proto import PlayerState
 def NewPlayerState():
 	"""Returns a new player's state."""
 	player_state = PlayerState(
-		gems = [],
+		gems = {GemType.BLUE: 0, GemType.GREEN: 0, GemType.RED: 0, GemType.WHITE: 0, GemType.BROWN: 0, GemType.GOLD: 0},
 		purchased_cards=[],
 		unhidden_reserved_cards=[],
 		hidden_reserved_cards=[],
@@ -33,15 +34,13 @@ def InitializeGameState(gamebox, num_players, random_seed=None):
 			str(num_players) + " players")
 
 	# Reduce non-gold gem counts, if necessary.
-	gem_counts = gem_utils.CountGems(gamebox.gems)
+	gem_counts = copy.deepcopy(gamebox.gems)
 	gem_reduction_amount = (
 		game_rules.nongold_gem_removals_by_num_players[num_players])
-	for gem_type in gem_counts.keys():
+        for gem_type in gem_counts.keys():
 		if gem_type == GemType.GOLD:
 			continue  # only reduce non-gold gems
 		gem_counts[gem_type] -= gem_reduction_amount
-	gems_list = gem_utils.GetGems(gem_counts)
-
 	randomizer = random.Random(random_seed)
 
 	# Separate the cards by level.
@@ -57,7 +56,7 @@ def InitializeGameState(gamebox, num_players, random_seed=None):
 		gamebox.noble_tiles, num_players + 1)
 
 	game_state = GameState(
-		available_gems=gems_list,
+		available_gems=gem_counts,
 		development_cards=development_cards,
 		noble_tiles=noble_tiles,
 		player_states=[NewPlayerState() for _ in range(num_players)],
@@ -73,7 +72,7 @@ def EmptyBlueDevelopmentCard():
 		level=Deck.LEVEL_1,
 		points=0,
 		gem=gems.BLUE,
-		cost=[]
+		cost={}
 	)
 	return card
 
@@ -83,7 +82,7 @@ def EmptyNobleTile():
 	noble_tile = NobleTile(
 		asset_id="",
 		points=0,
-		gem_type_requirements=[]
+		gem_type_requirements={}
 	)
 	return noble_tile
 
@@ -91,7 +90,7 @@ def EmptyNobleTile():
 def SinglePlayerEmptyGameState():
 	"""Returns an empty game state with a single player."""
 	game_state = GameState(
-		available_gems=[],
+		available_gems= {GemType.BLUE: 0, GemType.GREEN: 0, GemType.RED: 0, GemType.WHITE: 0, GemType.BROWN: 0, GemType.GOLD: 0},
 		development_cards=collections.defaultdict(list),
 		noble_tiles=[],
 		player_states = [NewPlayerState()],

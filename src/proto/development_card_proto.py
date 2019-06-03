@@ -16,6 +16,6 @@ DevelopmentCard = collections.namedtuple(
     # The Gem discount the card offers.
     "gem",
 
-    # The list of gems this card costs.
+    # Dictionary of this card's gem costs.
     "cost",
   ])

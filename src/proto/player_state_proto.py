@@ -4,7 +4,7 @@ import collections
 
 PlayerState = collections.namedtuple(
   "PlayerState", [
-    # List of Gems held by player.
+    # Dictionary of Gems held by player.
     "gems",
 
     # List of purchased DevelopmentCards.
