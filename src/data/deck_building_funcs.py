@@ -1,5 +1,7 @@
-import sys
-sys.path.append('C:/Users/erik.hou/Studies/Personal Projects/splendor-ai')
+"""Utils to parse a csv file for DevelopmentCard data."""
+
+import collections
+import csv
 
 from src.proto.gem_proto import GemType
 from src.proto.deck_proto import Deck
@@ -10,8 +12,11 @@ def int_to_deck_level(level):
         return Deck.LEVEL_1
     elif level == 2:
         return Deck.LEVEL_2
-    else:
+    elif level == 3:
         return Deck.LEVEL_3
+    else:
+        raise ValueError("Data error (Deck level invalid)")
+
 
 def str_to_gem(s):
     if s == 'BLUE':
@@ -22,41 +27,33 @@ def str_to_gem(s):
         return GemType.RED
     elif s == 'WHITE':
         return GemType.WHITE
-    else:
+    elif s == 'BROWN':
         return GemType.BROWN
+    else:
+        raise ValueError("Data error (GemType invalid)")
+
 
 def build_deck(file):
-    
-    '''use a file to build a deck of development cards'''
-    
-    f = open(file, 'rt')
-    lines = f.readlines()
-    f.close
-
+    '''Use a csv file to build a deck of development cards.'''
     deck = []
-
-    for i in range(1,len(lines)): #ignore the first line, headers
-        line_list = lines[i].replace('\n', '').split(',')
-
-        asset_id = line_list[0]
-        level = int_to_deck_level(int(line_list[1]))
-        point = line_list[2]
-        gem = str_to_gem(line_list[3])
-
-        cost = ([GemType.BLUE]*int(line_list[4]) +
-                [GemType.GREEN]*int(line_list[5]) +
-                [GemType.RED]*int(line_list[6]) +
-                [GemType.WHITE]*int(line_list[7]) +
-                [GemType.BROWN]*int(line_list[8]))
-
-        deck.append(DevelopmentCard(
-            asset_id=asset_id,
-            level=level,
-            points=point,
-            gem=gem,
-            cost=cost,))
+    with open(file, 'rt') as csv_file:
+        card_data_reader = csv.DictReader(csv_file, delimiter=',')
+        for row in card_data_reader:
+            asset_id = row['asset_id']
+            level = int_to_deck_level(int(row['level']))
+            point = row['point']
+            gem = str_to_gem(row['gem'])
+            cost = collections.Counter({
+                GemType.BLUE: int(row['blue_cost']),
+                GemType.GREEN: int(row['green_cost']),
+                GemType.RED: int(row['red_cost']),
+                GemType.WHITE: int(row['white_cost']),
+                GemType.BROWN: int(row['brown_cost'])})
+            deck.append(DevelopmentCard(
+                asset_id=asset_id,
+                level=level,
+                points=point,
+                gem=gem,
+                cost=cost,))
 
     return deck
-        
-        
-        
