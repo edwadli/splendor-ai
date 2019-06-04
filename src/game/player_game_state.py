@@ -37,6 +37,7 @@ def CountPoints(player_state):
     num_points += noble_tile.points
   return num_points
 
+
 class SelfState(object):
   """Wrapper for PlayerState."""
   def __init__(self, player_state):
@@ -172,7 +173,7 @@ class PlayerGameState(object):
     num_cards_revealed = len(self.revealed_cards[deck])
     num_cards_left = num_cards - num_cards_revealed
     return num_cards_left > 0
-    
+
   def GemLimit(self):
     """Returns how many more gems the player can hold."""
     return self._game_rules.max_gems - sum(self._self_state.gem_counts.values())

@@ -10,8 +10,9 @@ def CountGems(gems_list):
 		counts[gem] += 1
 	return counts
 
+
 def GetGems(gem_counts):
-	"""Returns a list of Gems given a dict from GemType to counts."""
+	"""Returns a list of GemTypes given a dict from GemType to counts."""
 	gems_list = []
 	for gem_type, count in gem_counts.iteritems():
 		if count < 0:
@@ -19,3 +20,9 @@ def GetGems(gem_counts):
 		for _ in range(count):
 			gems_list.append(gem_type)
 	return gems_list
+
+
+def GetDiscountedCost(cost, discount):
+	"""Returns the subtraction between cost and discount dicts"""
+	return collections.Counter(cost) - collections.Counter(discount)
+
