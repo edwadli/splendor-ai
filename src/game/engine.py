@@ -37,6 +37,8 @@ def is_taking_different_gems(player_action):
     gem_types = gem_utils.GetNonEmptyGemTypes(gems_taken)
     if len(gem_types) > 3:
         return False
+    if GemType.GOLD in gem_types:
+        return False
     if not all(gems_taken[gem_type] == 1 for gem_type in gem_types):
         return False
     return (player_action.purchased_card_id is None and
@@ -48,6 +50,9 @@ def is_double_taking_gems(player_action):
     gems_taken = player_action.gems_taken
     gem_types = gem_utils.GetNonEmptyGemTypes(gems_taken)
     if len(gem_types) != 1:
+        return False
+    gem_type = gem_types[0]
+    if gem_type == GemType.GOLD:
         return False
     return (player_action.gems_taken[gem_types[0]] == 2 and
             player_action.purchased_card_id is None and
