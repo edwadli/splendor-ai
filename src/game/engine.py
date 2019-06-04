@@ -133,9 +133,19 @@ def check_player_action(player_game_state, player_action):
         if noble_tile is None:
             raise ValueError("Noble with asset_id=" + player_action.noble_tile_id
                              + " does not exist")
-        costs = player_action.noble_tile.gem_type_requirements
-        for gem_type in costs:
-            if costs[gem_type] > player_game_state.self_state.gem_discounts[gem_type]:
+        recently_purchased_gem_type = None
+        if player_action.purchased_card_id is not None:
+            card = player_game_state.GetReservedOrRevealedCardById(
+                player_action.purchased_card_id)
+            if card is not None:
+                recently_purchased_gem_type = card.gem
+        discounts_required = player_action.noble_tile.gem_type_requirements
+        discounts_acquired = player_game_state.self_state.gem_discounts
+        for gem_type in discounts_required:
+            discount_acquired = discounts_acquired[gem_type]
+            if gem_type == recently_purchased_gem_type:
+                discount_acquired += 1
+            if discounts_required[gem_type] > discount_acquired:
                 raise ValueError("Don't have the cards to obtain noble tile")
     # Everything checks out.
     return
