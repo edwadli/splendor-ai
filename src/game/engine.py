@@ -15,16 +15,14 @@ def is_reserved_revealed_card(player_action):
     return (is_gems_taken_only_gold(player_action) and
             player_action.purchased_card_id is None and
             player_action.reserved_card_id is not None and
-            player_action.topdeck_level is None and
-            player_action.noble_tile_id is None)
+            player_action.topdeck_level is None)
 
 
 def is_reserved_top_deck(player_action):
     return (is_gems_taken_only_gold(player_action) and
             player_action.purchased_card_id is None and
             player_action.reserved_card_id is None and
-            player_action.topdeck_level is not None and
-            player_action.noble_tile_id is None)
+            player_action.topdeck_level is not None)
 
 
 def is_purchased_card(player_action):
@@ -39,12 +37,13 @@ def is_taking_different_gems(player_action):
     gem_types = gem_utils.GetNonEmptyGemTypes(gems_taken)
     if len(gem_types) > 3:
         return False
+    if GemType.GOLD in gem_types:
+        return False
     if not all(gems_taken[gem_type] == 1 for gem_type in gem_types):
         return False
     return (player_action.purchased_card_id is None and
             player_action.reserved_card_id is None and
-            player_action.topdeck_level is None and
-            player_action.noble_tile_id is None)
+            player_action.topdeck_level is None)
 
 
 def is_double_taking_gems(player_action):
@@ -52,36 +51,43 @@ def is_double_taking_gems(player_action):
     gem_types = gem_utils.GetNonEmptyGemTypes(gems_taken)
     if len(gem_types) != 1:
         return False
+    gem_type = gem_types[0]
+    if gem_type == GemType.GOLD:
+        return False
     return (player_action.gems_taken[gem_types[0]] == 2 and
             player_action.purchased_card_id is None and
             player_action.reserved_card_id is None and
-            player_action.topdeck_level is None and
-            player_action.noble_tile_id is None)
+            player_action.topdeck_level is None)
 
 
 def check_player_action(player_game_state, player_action):
-    # Gems taken must be avaliable.
+    # Cannot take and return same gem.
     gems_taken = player_action.gems_taken
-    gem_utils.VerifyNonNegativeGems(gems_taken)
+    gems_returned = player_action.gems_returned
+    for gem_type in gems_taken:
+        if gems_taken[gem_type] > 0 and gems_returned[gem_type] > 0:
+            raise ValueError("Cannot take and return the same gem")
+
+    # Gems taken must be avaliable.
+    if not gem_utils.VerifyNonNegativeGems(gems_taken):
+        raise ValueError("Gem counts must be non-negative")
     gems_available = player_game_state.gem_counts
     if not gem_utils.CanTakeFrom(gems_available, gems_taken):
         raise ValueError("Not enough gems left")
 
     # Must have enough gems to return.
     self_gems = player_game_state.self_state.gem_counts
-    gems_returned = player_action.gems_returned
-    gem_utils.VerifyNonNegativeGems(gems_returned)
+    if not gem_utils.VerifyNonNegativeGems(gems_returned):
+        raise ValueError("Gem counts must be non-negative")
     if not gem_utils.CanTakeFrom(self_gems, gems_returned):
         raise ValueError("Not enough gems of type " + str(gem_type) + " to return")
 
-    # Must return exactly down to limit.
+    # Must not exceed gem limit.
     num_gems_taken = gem_utils.NumGems(gems_taken)
     excess_gems = num_gems_taken - player_game_state.GemLimit()
     num_gems_returned = gem_utils.NumGems(gems_returned)
-    if excess_gems <= 0 and num_gems_returned > 0:
-        raise ValueError("Cannot return gems under limit")
-    if excess_gems > 0 and (excess_gems - num_gems_returned != 0):
-        raise ValueError("Must return gems back to the limit exactly")
+    if excess_gems - num_gems_returned > 0:
+        raise ValueError("Need to return more gems")
 
     if is_reserved_revealed_card(player_action):
         # Must not exceed reserve limit.
@@ -113,9 +119,7 @@ def check_player_action(player_game_state, player_action):
                                         player_action.gems_returned):
             raise ValueError("Did not exactly pay for card.")
     elif is_taking_different_gems(player_action):
-        if (num_gems_taken < 3 and
-            gem_utils.NumNonGoldGems(gems_available) != num_gems_taken):
-            raise ValueError("Cannot take less than 3 gems")
+        pass
     elif is_double_taking_gems(player_action):
         gem_types = gem_utils.GetNonEmptyGemTypes(gems_taken)
         if len(gem_types) != 1 or player_game_state.CanTakeTwo(gem_types[0]):
@@ -129,9 +133,19 @@ def check_player_action(player_game_state, player_action):
         if noble_tile is None:
             raise ValueError("Noble with asset_id=" + player_action.noble_tile_id
                              + " does not exist")
-        costs = player_action.noble_tile.gem_type_requirements
-        for gem_type in costs:
-            if costs[gem_type] > player_game_state.self_state.gem_discounts[gem_type]:
+        recently_purchased_gem_type = None
+        if player_action.purchased_card_id is not None:
+            card = player_game_state.GetReservedOrRevealedCardById(
+                player_action.purchased_card_id)
+            if card is not None:
+                recently_purchased_gem_type = card.gem
+        discounts_required = player_action.noble_tile.gem_type_requirements
+        discounts_acquired = player_game_state.self_state.gem_discounts
+        for gem_type in discounts_required:
+            discount_acquired = discounts_acquired[gem_type]
+            if gem_type == recently_purchased_gem_type:
+                discount_acquired += 1
+            if discounts_required[gem_type] > discount_acquired:
                 raise ValueError("Don't have the cards to obtain noble tile")
     return
 
