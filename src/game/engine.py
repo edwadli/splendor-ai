@@ -90,7 +90,16 @@ def check_player_action(player_game_state, player_action):
 
     return True
 
+def update_game_state(game_state, player_action):
+    player_id = game_state.turn % len(game_state.player_states)
+    player_state = game_state.player_states[player_id]
+    
+    for gem_type in player_action.gems_taken:
+        player_state.gems[gem_type] += player_action.gems_taken[gem_type]
+        game_state.available_gems[gem_type] -= player_action.gems_taken[gem_type]
 
+    for gem_type in player_action.gems_returned:
+        player_state.gems[gem_type] -= player_action.gems_returned[gem_type]
+        game_state.available_gems[gem_type] += player_action.gems_returned[gem_type]
 
-
-            
+    if 
