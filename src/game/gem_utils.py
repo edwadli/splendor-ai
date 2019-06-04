@@ -74,7 +74,7 @@ def NumNonGoldGems(gems):
 
 def VerifyNonNegativeGems(gems):
 	"""Returns that all gem values are nonnegative."""
-	return any(count >= 0 for count in gems.values())
+	return all(count >= 0 for count in gems.values())
 
 
 def AllZerosExcept(gems, *gem_types):
