@@ -37,7 +37,7 @@ def is_purchased_card(player_action):
 def is_taking_different_gems(player_action):
     gems_taken = player_action.gems_taken
     gem_types = gem_utils.GetNonEmptyGemTypes(gems_taken)
-    if len(gem_types) <= 3:
+    if len(gem_types) > 3:
         return False
     if not all(gems_taken[gem_type] == 1 for gem_type in gem_types):
         return False
@@ -65,7 +65,7 @@ def check_player_action(player_game_state, player_action):
     gem_utils.VerifyNonNegativeGems(gems_taken)
     gems_available = player_game_state.gem_counts
     if not gem_utils.CanTakeFrom(gems_available, gems_taken):
-        raise ValueError("Not enough gems left of type " + str(gem_type))
+        raise ValueError("Not enough gems left")
 
     # Must have enough gems to return.
     self_gems = player_game_state.self_state.gem_counts
@@ -121,7 +121,7 @@ def check_player_action(player_game_state, player_action):
         if len(gem_types) != 1 or player_game_state.CanTakeTwo(gem_types[0]):
             raise ValueError("Not enough " + str(gem_type) + " gems to take two")
     else:
-        raise ValueError("PlayerAction malformed")
+        raise ValueError("PlayerAction malformed:\n" + str(player_action))
 
     # Obtaining a noble
     if player_action.noble_tile_id is not None:
