@@ -19,6 +19,6 @@ class TestEngine(unittest.TestCase):
         game_rules = gamebox.GAMEBOX.game_rules
         player_game_state = PlayerGameState(game_state, game_rules)
         result = engine.check_player_action(player_game_state, player_action.PLAYER_ACTION)
-        self.assertEquals(result, True)
+        self.assertIsNone(result)
 
 

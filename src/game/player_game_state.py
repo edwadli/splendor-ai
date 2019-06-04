@@ -37,6 +37,7 @@ def CountPoints(player_state):
     num_points += noble_tile.points
   return num_points
 
+
 class SelfState(object):
   """Wrapper for PlayerState."""
   def __init__(self, player_state):
@@ -134,8 +135,7 @@ class PlayerGameState(object):
       for card in cards:
         if card.asset_id == asset_id:
           return card
-    raise ValueError("No revealed cards with asset_id=" +
-                     str(asset_id) + " found.")
+    return None
 
   def GetReservedCardById(self, asset_id):
     """Retrieves one of the current player's reserved DevelopmentCard."""
@@ -143,16 +143,25 @@ class PlayerGameState(object):
       for card in cards:
         if card.asset_id == asset_id:
           return card
-    raise ValueError("No reserved cards with asset_id=" +
-                     str(asset_id) + " found for player [" +
-                     self._game_state.turn + "].")
+    return None
+
+  def GetReservedOrRevealedCardById(self, asset_id):
+    revealed_card = self.GetRevealedCardById(asset_id)
+    reserved_card = self.GetReservedCardById(asset_id)
+    if reserved_card is None and revealed_card is None:
+      return None
+    if reserved_card is not None and revealed_card is not None:
+      raise ValueError("Found two cards with asset_id=" + asset_id)
+    if reserved_card is not None:
+      return reserved_card
+    else:
+      return revealed_card
 
   def GetNobleById(noble_id):
     for noble in self.noble_tiles:
       if noble.asset_id == noble_id:
         return noble
-    raise ValueError("No noble tiles on the field with asset_id=" +
-                     str(asset_id) + " found.")
+    return None
 
   def CanTakeTwo(self, gem_type):
     """Returns whether the player can take two of the gem type.
@@ -172,7 +181,7 @@ class PlayerGameState(object):
     num_cards_revealed = len(self.revealed_cards[deck])
     num_cards_left = num_cards - num_cards_revealed
     return num_cards_left > 0
-    
+
   def GemLimit(self):
     """Returns how many more gems the player can hold."""
     return self._game_rules.max_gems - sum(self._self_state.gem_counts.values())
