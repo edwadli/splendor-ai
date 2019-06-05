@@ -149,7 +149,7 @@ def check_player_action(player_game_state, player_action):
                 raise ValueError("Don't have the cards to obtain noble tile")
     return
 
-def update_game_state(game_state, player_action, cards_per_level):
+def update_game_state(game_state, player_action, game_rules):
     new_game_state = copy.deepcopy(game_state)
     player_id = new_game_state.turn % len(new_game_state.player_states)
     player_state = new_game_state.player_states[player_id]
@@ -169,6 +169,7 @@ def update_game_state(game_state, player_action, cards_per_level):
                 player_state.noble_tiles.append(noble)
                 break
 
+    cards_per_level = game_rules.num_cards_revealed_per_level
     action = None
     asset_id = None
     if player_action.reserved_card_id is not None:
