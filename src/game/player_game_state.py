@@ -190,6 +190,20 @@ class PlayerGameState(object):
     """Returns whether the player can reserve any more cards."""
     return self._self_state.num_reserved_cards < self._game_rules.max_reserved_cards
 
+  def CanPurchaseCardById(self, asset_id):
+    card = self.GetReservedOrRevealedCardById(asset_id)
+    return self.CanPurchaseCard(card)
+
+  def CanPurchaseCard(self, card):
+    if card is None:
+      return False
+    # Check cost satisfactions
+    deltas = {gem_type: self._gem_counts.get(gem_type, 0) - card.cost[gem_type] for gem_type in card.cost.keys()}
+    for gem_type in deltas:
+      if deltas[gem_type] < 0:
+        return False
+    return True
+    
   @property
   def gem_counts(self):
     return self._gem_counts
