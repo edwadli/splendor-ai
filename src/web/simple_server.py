@@ -14,7 +14,7 @@ def ParseGameState(game_state_dict):
   pass  # TODO
 
 
-def (game_state):
+def GameStateAsDict(game_state):
   pass  # TODO
 
 
