@@ -46,7 +46,7 @@ class SelfState(object):
     self._gem_counts = player_state.gems
     self._unhidden_reserved_cards = player_state.unhidden_reserved_cards
     self._hidden_reserved_cards = player_state.hidden_reserved_cards
-    
+
     # Derived values from a player's purchased cards and nobles.
     self._num_points = CountPoints(player_state)
     self._gem_discounts = collections.defaultdict(int)  # keyed by GemType
@@ -60,7 +60,7 @@ class SelfState(object):
   @property
   def gem_counts(self):
     return self._gem_counts
-  
+
   @property
   def unhidden_reserved_cards(self):
     return self._unhidden_reserved_cards
@@ -68,15 +68,15 @@ class SelfState(object):
   @property
   def hidden_reserved_cards(self):
     return self._hidden_reserved_cards
-  
+
   @property
   def reserved_cards(self):
     return self._unhidden_reserved_cards + self._hidden_reserved_cards
-  
+
   @property
   def num_purchased_cards(self):
     return len(self.player_state.purchased_cards)
-  
+
   @property
   def num_reserved_cards(self):
     return len(self.reserved_cards)
@@ -84,7 +84,7 @@ class SelfState(object):
   @property
   def num_points(self):
     return self._num_points
-  
+
   @property
   def gem_discounts(self):
     return self._gem_discounts
@@ -104,7 +104,7 @@ class OpponentState(SelfState):
   @property
   def num_hidden_reserved_cards(self):
     return self.num_reserved_cards - len(self.unhidden_reserved_cards)
-  
+
 
 class PlayerGameState(object):
   """Wrapper for exposing GameState according to GameRules."""
@@ -165,7 +165,7 @@ class PlayerGameState(object):
 
   def CanTakeTwo(self, gem_type):
     """Returns whether the player can take two of the gem type.
-    
+
     Params:
       gem_type: the desired GemType.
 
@@ -190,6 +190,25 @@ class PlayerGameState(object):
     """Returns whether the player can reserve any more cards."""
     return self._self_state.num_reserved_cards < self._game_rules.max_reserved_cards
 
+  def CanPurchaseCardById(self, asset_id):
+    card = self.GetReservedOrRevealedCardById(asset_id)
+    return self.CanPurchaseCard(card)
+
+  def CanPurchaseCard(self, card):
+    if card is None:
+      return False
+    gem_counts = self._self_state._gem_counts
+    gem_discounts = self._self_state._gem_discounts
+
+    # Compute difference between player gem counts and card cost.
+    gem_deltas = {gem_type: gem_counts.get(gem_type, 0) + gem_discounts[gem_type] - card.cost[gem_type] for gem_type in card.cost.keys()}
+
+    # Check sufficient count for each gem type.
+    for gem_type in gem_deltas:
+      if gem_deltas[gem_type] < 0:
+        return False
+    return True
+
   @property
   def gem_counts(self):
     return self._gem_counts
@@ -205,8 +224,8 @@ class PlayerGameState(object):
   @property
   def self_state(self):
     return self._self_state
-  
+
   @property
   def opponent_states(self):
     return self._opponent_states
-  
+
