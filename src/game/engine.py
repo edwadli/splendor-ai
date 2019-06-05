@@ -178,7 +178,7 @@ def update_game_state(game_state, player_action, cards_per_level):
         action = "purchase"
         asset_id = player_action.purchased_card_id
 
-    if action is not None
+    if action is not None:
         found = False
         for deck in new_game_state.development_cards:
             if found:

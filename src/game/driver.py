@@ -66,12 +66,11 @@ class Driver(object):
 				self._game_state, self._game_rules)
 		# Get the agent's PlayerAction for this turn.
 		player_action = agent_to_play.PlayTurn(game_view)
-		# TODO: check if player_action is valid.
-		if False:
-			raise ValueError(
-				"Agent " + str(turn) + "'s PlayerAction is invalid")
-		# TODO: update game state with player_action.
-		self._game_state = self._game_state
+		# Validate that player_action is valid.
+		engine.check_player_action(game_view, player_action)
+		# Update game state with player_action.
+		self._game_state = engine.update_game_state(
+				self._game_state, player_action, self._game_rules)
 		self._game_state._replace(turn=turn + 1 % len(self._agents))
 		return player_action
 
