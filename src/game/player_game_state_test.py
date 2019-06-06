@@ -146,8 +146,17 @@ class TestPlayerGameState(unittest.TestCase):
 		self.assertEquals(opponent_gems, expected_opponent_gems)
 
 	def test_PlayerGameStateCanPurchaseCard(self):
+		owned_dev_card_1 = DevelopmentCard(
+			asset_id="",
+			level=Deck.LEVEL_1,
+			points=0,
+			gem=GemType.RED,
+			cost={GemType.GREEN: 1})
+
 		player_states = [
-			setup.NewPlayerState()._replace(gems={GemType.RED: 4, GemType.BLUE: 2, GemType.GOLD: 1}),
+			setup.NewPlayerState()._replace(
+				gems={GemType.RED: 4, GemType.BLUE: 2, GemType.GOLD: 1}, 
+				purchased_cards = [owned_dev_card_1]),
 			setup.NewPlayerState()._replace(gems={GemType.BLUE: 1}),
 			setup.NewPlayerState()._replace(gems={GemType.GREEN: 1}),
 			setup.NewPlayerState()._replace(gems={GemType.WHITE: 1}),
@@ -181,6 +190,14 @@ class TestPlayerGameState(unittest.TestCase):
 			gem=GemType.RED,
 			cost={GemType.BLUE: 2, GemType.RED: 3})
 		self.assertTrue(state.CanPurchaseCard(dev_card_3))
+
+		dev_card_4 = DevelopmentCard(
+			asset_id="",
+			level=Deck.LEVEL_1,
+			points=0,
+			gem=GemType.RED,
+			cost={GemType.BLUE: 2, GemType.RED: 5})
+		self.assertTrue(state.CanPurchaseCard(dev_card_4))
 		
 if __name__ == "__main__":
 	unittest.main()
