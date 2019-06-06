@@ -1,5 +1,7 @@
 """Runs a round robin tournament."""
 
+import argparse
+
 from src.game.tournament import round_robin
 from src.game.tournament import game_result_utils
 from src.agents.naive import greedy_buy_bot
@@ -41,7 +43,7 @@ def PrintSeatPositionStats(results):
   print "================================\n"
 
 
-def RunRoundRobin():
+def RunRoundRobin(dump_terminated=False):
   print ("Running round robin tournament (" +
          str(NUM_PLAYERS) + " player games) with:")
   print "\n".join(AGENT_CLASSES.keys()) + "\n"
@@ -58,11 +60,22 @@ def RunRoundRobin():
   PrintTurnStats(results)
   PrintSeatPositionStats(results)
 
+  if not dump_terminated:
+    return
   print "Terminated games:\n"
   for result in results:
     if len(result.winners) == 0:
       print str(result) + "\n"
 
 
+def RunMain():
+  parser = argparse.ArgumentParser()
+  parser.add_argument(
+      "--dump_terminated",
+      help="Prints all terminated games", action="store_true")
+  args = parser.parse_args()
+  RunRoundRobin(dump_terminated=args.dump_terminated)
+
+
 if __name__ == "__main__":
-  RunRoundRobin()
+  RunMain()
