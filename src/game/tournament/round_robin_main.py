@@ -17,11 +17,19 @@ NUM_PLAYERS = 4
 
 def PrintWinStats(results):
   scores = game_result_utils.GetWinStats(results)
-  print "================================\n"
+  print "===========WINS=================\n"
   for agent_id, num_wins in scores.iteritems():
     print agent_id + ":\t" + str(num_wins)
   print "Terminated games: " + str(
       game_result_utils.NumTerminatedGames(results))
+  print "================================\n"
+
+
+def PrintTurnStats(results):
+  hist = game_result_utils.GetTurnStats(results)
+  print "=======TURN STATS===============\n"
+  for num_rounds, count in hist.iteritems():
+    print str(num_rounds) + ":\t" + str(count)  
   print "================================\n"
 
 
@@ -39,6 +47,7 @@ def RunRoundRobin():
 
   print "Games finished. Producing report:\n"
   PrintWinStats(results)
+  PrintTurnStats(results)
 
   print "Terminated games:\n"
   for result in results:

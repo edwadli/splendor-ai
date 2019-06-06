@@ -1,5 +1,7 @@
 """Utils for computing stats from GameResults."""
 
+import collections
+
 
 def GetWinStats(game_results):
   """Returns a dict from agent ids to number of wins."""
@@ -24,3 +26,11 @@ def NumTerminatedGames(game_results):
     if len(game_result.winners) == 0:
       count += 1
   return count
+
+
+def GetTurnStats(game_results):
+  """Returns a histogram of game lengths (in rounds played)."""
+  hist = collections.Counter()
+  for game_result in game_results:
+    hist[game_result.num_rounds_played] += 1
+  return hist

@@ -14,6 +14,6 @@ GameResult = collections.namedtuple(
     # The GameState at the end of the game.
     "final_game_state",
 
-    # The number of turns played.
-    "num_turns_played",
+    # The number of rounds played.
+    "num_rounds_played",
   ])
