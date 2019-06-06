@@ -146,8 +146,16 @@ class TestPlayerGameState(unittest.TestCase):
 		self.assertEquals(opponent_gems, expected_opponent_gems)
 
 	def test_PlayerGameStateCanPurchaseCard(self):
+		player_states = [
+			setup.NewPlayerState()._replace(gems={GemType.RED: 4, GemType.BLUE: 2, GemType.GOLD: 1}),
+			setup.NewPlayerState()._replace(gems={GemType.BLUE: 1}),
+			setup.NewPlayerState()._replace(gems={GemType.GREEN: 1}),
+			setup.NewPlayerState()._replace(gems={GemType.WHITE: 1}),
+		]
                 game_state = setup.SinglePlayerEmptyGameState()._replace(
-                        available_gems={GemType.RED: 4, GemType.BLUE: 2, GemType.GOLD: 1})
+			player_states = player_states,
+			turn=0
+		)
 		state = player_game_state.PlayerGameState(
 			game_state, game_rules.GAME_RULES)
 		dev_card_1 = DevelopmentCard(
