@@ -15,3 +15,12 @@ def GetWinStats(game_results):
       stats[agent_id] += 1
 
   return stats
+
+
+def NumTerminatedGames(game_results):
+  """Returns the number of terminated games."""
+  count = 0
+  for game_result in game_results:
+    if len(game_result.winners) == 0:
+      count += 1
+  return count

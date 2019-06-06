@@ -28,9 +28,6 @@ class GreedyBuyBot(agent.Agent):
         num_to_take = min(3, player_game_state.GemLimit())
         action = agent.TakeGems(
             {gem_type: 1 for gem_type in available_gem_types[:num_to_take]})
-        if num_to_take > 0:
-          print str(available_gem_types)
-          print str(action)
     else:
       action = agent.BuyCard(player_game_state, card_to_buy)
     claimable_nobles = player_game_state.GetClaimableNobles()

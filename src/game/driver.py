@@ -48,7 +48,7 @@ class Driver(object):
 			self._game_rules = game_rules
 		else:
 			raise ValueError("Invalid driver initialization inputs")
-		self._num_turns_played = 0
+		self._num_rounds_played = 0
 		
 		player_states = self._game_state.player_states
 		if (len(self._agents) != len(player_states)):
@@ -74,7 +74,7 @@ class Driver(object):
 				self._game_state, player_action, self._game_rules)
 		self._game_state = self._game_state._replace(
 				turn=(turn + 1) % len(self._agents))
-		self._num_turns_played += 1
+		self._num_rounds_played += 1
 		return player_action
 
 	def GetWinners(self):
@@ -101,12 +101,15 @@ class Driver(object):
 			if score == winning_score)
 		return winners
 
-	def RunGame(self):
+	def RunGame(self, early_stop_round=None):
 		"""Returns the winning agents' indices."""
 		while True:
 			winners = self.GetWinners()
 			if winners:
 				return winners
+			elif (early_stop_round is not None and
+			      self._num_rounds_played >= early_stop_round):
+				return tuple()
 			else:
 				_ = self.RunNextTurn()
 
@@ -119,6 +122,6 @@ class Driver(object):
 		return self._game_rules
 
 	@property
-	def num_turns_played(self):
-		return self._num_turns_played
+	def num_rounds_played(self):
+		return self._num_rounds_played
 	

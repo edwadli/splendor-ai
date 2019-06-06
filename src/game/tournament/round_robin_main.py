@@ -14,6 +14,17 @@ AGENT_CLASSES = {
 
 NUM_PLAYERS = 4
 
+
+def PrintWinStats(results):
+  scores = game_result_utils.GetWinStats(results)
+  print "================================\n"
+  for agent_id, num_wins in scores.iteritems():
+    print agent_id + ":\t" + str(num_wins)
+  print "Terminated games: " + str(
+      game_result_utils.NumTerminatedGames(results))
+  print "================================\n"
+
+
 def RunRoundRobin():
   print ("Running round robin tournament (" +
          str(NUM_PLAYERS) + " player games) with:")
@@ -21,13 +32,18 @@ def RunRoundRobin():
   print "..."
   round_robin_runner = round_robin.RoundRobinRunner(
       AGENT_CLASSES, num_players=NUM_PLAYERS)
-  results = round_robin_runner.Run()
+  results = []
+  for intermediate_results in round_robin_runner.RunIterative():
+    results = intermediate_results
+    PrintWinStats(results)
+
   print "Games finished. Producing report:\n"
-  print "================================\n"
-  scores = game_result_utils.GetWinStats(results)
-  for agent_id, num_wins in scores.iteritems():
-    print agent_id + ":\t" + str(num_wins)
-  print "================================\n"
+  PrintWinStats(results)
+
+  print "Terminated games:\n"
+  for result in results:
+    if len(result.winners) == 0:
+      print str(result) + "\n"
 
 
 if __name__ == "__main__":
