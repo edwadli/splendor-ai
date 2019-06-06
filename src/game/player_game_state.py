@@ -197,8 +197,11 @@ class PlayerGameState(object):
   def CanPurchaseCard(self, card):
     if card is None:
       return False
+    gem_counts = self._self_state._gem_counts
+    gem_discounts = self._self_state._gem_discounts
+
     # Compute difference between player gem counts and card cost.
-    gem_deltas = {gem_type: self._self_state._gem_counts.get(gem_type, 0) - card.cost[gem_type] for gem_type in card.cost.keys()}
+    gem_deltas = {gem_type: gem_counts.get(gem_type, 0) + gem_discounts[gem_type] - card.cost[gem_type] for gem_type in card.cost.keys()}
 
     # Check sufficient count for each gem type.
     for gem_type in gem_deltas:
