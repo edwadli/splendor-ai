@@ -41,8 +41,10 @@ def GetDiscountedCost(cost, discount):
 
 def CanTakeFrom(gems_available, gems_taken):
 	"""Returns whether 'gems_taken' can be taken from 'gems_available'."""
-	return all(
-	    diff >= 0 for diff in GemDifference(gems_available, gems_taken))
+	for gem_type, count in gems_taken.iteritems():
+		if gems_available[gem_type] < count:
+			return False
+	return True
 
 
 def ExactlyPaysFor(cost, payment):

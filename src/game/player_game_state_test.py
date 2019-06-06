@@ -1,5 +1,6 @@
 """Tests for player_game_state.py"""
 
+import collections
 import unittest
 
 # TODO: use test data instead of real game_rules itself.
@@ -155,7 +156,7 @@ class TestPlayerGameState(unittest.TestCase):
 
 		player_states = [
 			setup.NewPlayerState()._replace(
-				gems={GemType.RED: 4, GemType.BLUE: 2, GemType.GOLD: 1},
+				gems=collections.Counter({GemType.RED: 4, GemType.BLUE: 2, GemType.GOLD: 1}),
 				purchased_cards = [owned_dev_card_1]),
 			setup.NewPlayerState()._replace(gems={GemType.BLUE: 1}),
 			setup.NewPlayerState()._replace(gems={GemType.GREEN: 1}),
@@ -172,7 +173,7 @@ class TestPlayerGameState(unittest.TestCase):
 			level=Deck.LEVEL_1,
 			points=0,
 			gem=GemType.RED,
-			cost={GemType.BLUE: 1, GemType.GREEN: 1, GemType.RED: 1, GemType.WHITE:1})
+			cost=collections.Counter({GemType.BLUE: 1, GemType.GREEN: 1, GemType.RED: 1, GemType.WHITE:1}))
 		self.assertFalse(state.CanPurchaseCard(dev_card_1))
 
 		dev_card_2 = DevelopmentCard(
@@ -180,7 +181,7 @@ class TestPlayerGameState(unittest.TestCase):
 			level=Deck.LEVEL_1,
 			points=0,
 			gem=GemType.RED,
-			cost={GemType.BLUE: 2, GemType.RED: 3, GemType.WHITE:1})
+			cost=collections.Counter({GemType.BLUE: 2, GemType.RED: 3, GemType.WHITE:1}))
 		self.assertFalse(state.CanPurchaseCard(dev_card_2))
 
 		dev_card_3 = DevelopmentCard(
@@ -188,7 +189,7 @@ class TestPlayerGameState(unittest.TestCase):
 			level=Deck.LEVEL_1,
 			points=0,
 			gem=GemType.RED,
-			cost={GemType.BLUE: 2, GemType.RED: 3})
+			cost=collections.Counter({GemType.BLUE: 2, GemType.RED: 3}))
 		self.assertTrue(state.CanPurchaseCard(dev_card_3))
 
 		dev_card_4 = DevelopmentCard(
@@ -196,7 +197,7 @@ class TestPlayerGameState(unittest.TestCase):
 			level=Deck.LEVEL_1,
 			points=0,
 			gem=GemType.RED,
-			cost={GemType.BLUE: 2, GemType.RED: 5})
+			cost=collections.Counter({GemType.BLUE: 2, GemType.RED: 5}))
 		self.assertTrue(state.CanPurchaseCard(dev_card_4))
 
 if __name__ == "__main__":
