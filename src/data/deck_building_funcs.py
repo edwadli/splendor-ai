@@ -41,7 +41,7 @@ def build_deck(file):
         for row in card_data_reader:
             asset_id = row['asset_id']
             level = int_to_deck_level(int(row['level']))
-            point = row['point']
+            point = int(row['point'])
             gem = str_to_gem(row['gem'])
             cost = collections.Counter({
                 GemType.BLUE: int(row['blue_cost']),

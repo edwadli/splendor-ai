@@ -1,7 +1,7 @@
 """Utils for computing stats from GameResults."""
 
 
-def GetWinStats(self, game_results):
+def GetWinStats(game_results):
   """Returns a dict from agent ids to number of wins."""
   stats = {}
   for game_result in game_results:

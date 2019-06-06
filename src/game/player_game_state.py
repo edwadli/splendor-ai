@@ -201,7 +201,11 @@ class PlayerGameState(object):
     gem_discounts = self._self_state._gem_discounts
     discounted_price = gem_utils.GetDiscountedCost(card.cost, gem_discounts)
     gem_counts = self._self_state._gem_counts
-    return gem_utils.CanTakeFrom(gem_counts, discounted_price)
+    return gem_utils.CanPayFor(discounted_price, gem_counts)
+
+  def GetClaimableNobles(self):
+    # TODO: implement
+    return []
 
   @property
   def gem_counts(self):

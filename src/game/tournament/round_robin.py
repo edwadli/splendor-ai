@@ -23,10 +23,11 @@ class RoundRobinRunner(object):
         agents = [
           self._ids_to_agent_class[agent_id]() for agent_id in agent_ordering]
         game_driver = driver.Driver(agents, gamebox.GAMEBOX)
-        winners = driver.RunGame()
+        winners = game_driver.RunGame()
         results.append(GameResult(
             agent_ids=agent_ordering,
             winners=winners,
-            final_game_state=driver.game_state,
-            num_turns_played=driver.num_turns_played))
+            final_game_state=game_driver.game_state,
+            num_turns_played=game_driver.num_turns_played))
+        break
     return results

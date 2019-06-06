@@ -1,5 +1,7 @@
 """Utils for running the game."""
 
+import copy
+
 from src.proto.gem_proto import GemType
 from src.game import gem_utils
 
@@ -80,7 +82,8 @@ def check_player_action(player_game_state, player_action):
     if not gem_utils.VerifyNonNegativeGems(gems_returned):
         raise ValueError("Gem counts must be non-negative")
     if not gem_utils.CanTakeFrom(self_gems, gems_returned):
-        raise ValueError("Not enough gems of type " + str(gem_type) + " to return")
+        raise ValueError("Not enough gems: \n" + str(self_gems) + "\n\n" +
+                         str(gems_returned))
 
     # Must not exceed gem limit.
     num_gems_taken = gem_utils.NumGems(gems_taken)
@@ -122,7 +125,7 @@ def check_player_action(player_game_state, player_action):
         pass
     elif is_double_taking_gems(player_action):
         gem_types = gem_utils.GetNonEmptyGemTypes(gems_taken)
-        if len(gem_types) != 1 or player_game_state.CanTakeTwo(gem_types[0]):
+        if len(gem_types) != 1 or not player_game_state.CanTakeTwo(gem_types[0]):
             raise ValueError("Not enough " + str(gem_type) + " gems to take two")
     else:
         raise ValueError("PlayerAction malformed:\n" + str(player_action))

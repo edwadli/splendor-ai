@@ -24,18 +24,11 @@ def GetGems(gem_counts):
 	return gems_list
 
 
-def GemDifference(gems_a, gems_b):
-	"""Returns the subtraction between 'gems_a' and discount 'gems_b'"""
-	return collections.Counter(gems_a) - collections.Counter(gems_b)
-
-
 def GetDiscountedCost(cost, discount):
 	"""Returns the gems cost after discount."""
 	if cost[GemType.GOLD] != 0 or discount[GemType.GOLD] != 0:
 		raise ValueError("Cost and discount cannot include GOLD GemType")
-	discounted_cost = GemDifference(cost, discount)
-	for gem_type in discounted_cost:
-		discounted_cost[gem_type] = max(discounted_cost[gem_type], 0)
+	discounted_cost = collections.Counter(cost) - collections.Counter(discount)
 	return discounted_cost
 
 
@@ -47,20 +40,25 @@ def CanTakeFrom(gems_available, gems_taken):
 	return True
 
 
-def ExactlyPaysFor(cost, payment):
+def CanPayFor(cost, payment, is_exact=False):
 	"""Returns whether the 'cost' is exactly covered by 'payment'."""
 	if cost[GemType.GOLD] != 0:
 		raise ValueError("Cost cannot include GOLD GemType")
 	gold_needed = 0
 	for gem_type in cost:
-		if gem_type == GemType.GOLD:
-			continue
 		gem_diff = cost[gem_type] - payment[gem_type]
 		if gem_diff > 0:
 			gold_needed += gem_diff
-		elif gem_diff < 0:
+		elif gem_diff < 0 and is_exact:
 			return False  # too many gems of this type were paid
-	return gold_needed == payment[GemType.GOLD]
+	if is_exact:
+		return gold_needed == payment[GemType.GOLD]
+	else:
+		return gold_needed <= payment[GemType.GOLD]
+
+
+def ExactlyPaysFor(cost, payment):
+	return CanPayFor(cost, payment, is_exact=True)
 
 
 def NumGems(gems):

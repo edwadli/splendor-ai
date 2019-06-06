@@ -72,7 +72,8 @@ class Driver(object):
 		# Update game state with player_action.
 		self._game_state = engine.update_game_state(
 				self._game_state, player_action, self._game_rules)
-		self._game_state._replace(turn=turn + 1 % len(self._agents))
+		self._game_state = self._game_state._replace(
+				turn=(turn + 1) % len(self._agents))
 		self._num_turns_played += 1
 		return player_action
 
