@@ -30,7 +30,8 @@ def PrintWinStats(results):
 def PrintTurnStats(results):
   hist = game_result_utils.GetTurnStats(results)
   print "=======TURN STATS===============\n"
-  for num_rounds, count in hist.iteritems():
+  for num_rounds in sorted(hist.keys()):
+    count = hist[num_rounds]
     print str(num_rounds) + ":\t" + str(count)  
   print "================================\n"
 
