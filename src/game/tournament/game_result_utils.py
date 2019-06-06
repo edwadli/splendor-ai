@@ -34,3 +34,12 @@ def GetTurnStats(game_results):
   for game_result in game_results:
     hist[game_result.num_rounds_played] += 1
   return hist
+
+
+def GetWinsByPositionStats(game_results):
+  """Returns a histogram of wins by seat position."""
+  hist = collections.Counter()
+  for game_result in game_results:
+    for winner_idx in game_result.winners:
+      hist[winner_idx] += 1
+  return hist

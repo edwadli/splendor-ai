@@ -33,6 +33,14 @@ def PrintTurnStats(results):
   print "================================\n"
 
 
+def PrintSeatPositionStats(results):
+  hist = game_result_utils.GetWinsByPositionStats(results)
+  print "=======POSITION STATS===========\n"
+  for position in range(NUM_PLAYERS):
+    print str(position) + ":\t" + str(hist[position])
+  print "================================\n"
+
+
 def RunRoundRobin():
   print ("Running round robin tournament (" +
          str(NUM_PLAYERS) + " player games) with:")
@@ -48,6 +56,7 @@ def RunRoundRobin():
   print "Games finished. Producing report:\n"
   PrintWinStats(results)
   PrintTurnStats(results)
+  PrintSeatPositionStats(results)
 
   print "Terminated games:\n"
   for result in results:
