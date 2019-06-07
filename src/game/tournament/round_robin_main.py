@@ -16,11 +16,14 @@ AGENT_CLASSES = {
 
 NUM_PLAYERS = 4
 
+GAMES_PER_MATCHUP = 10
+
 
 def PrintWinStats(results):
   scores = game_result_utils.GetWinStats(results)
   print "===========WINS=================\n"
-  for agent_id, num_wins in scores.iteritems():
+  for agent_id in sorted(scores.keys()):
+    num_wins = scores[agent_id]
     print agent_id + ":\t" + str(num_wins)
   print "Terminated games: " + str(
       game_result_utils.NumTerminatedGames(results))
@@ -50,7 +53,8 @@ def RunRoundRobin(dump_terminated=False):
   print "\n".join(AGENT_CLASSES.keys()) + "\n"
   print "..."
   round_robin_runner = round_robin.RoundRobinRunner(
-      AGENT_CLASSES, num_players=NUM_PLAYERS)
+      AGENT_CLASSES, num_players=NUM_PLAYERS,
+      games_per_matchup=GAMES_PER_MATCHUP)
   results = []
   for intermediate_results in round_robin_runner.RunIterative():
     results = intermediate_results
