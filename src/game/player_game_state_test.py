@@ -182,7 +182,7 @@ class TestPlayerGameState(unittest.TestCase):
 			points=0,
 			gem=GemType.RED,
 			cost=collections.Counter({GemType.BLUE: 2, GemType.RED: 3, GemType.WHITE:1}))
-		self.assertFalse(state.CanPurchaseCard(dev_card_2))
+		self.assertTrue(state.CanPurchaseCard(dev_card_2))
 
 		dev_card_3 = DevelopmentCard(
 			asset_id="",
