@@ -204,8 +204,12 @@ class PlayerGameState(object):
     return gem_utils.CanPayFor(discounted_price, gem_counts)
 
   def GetClaimableNobles(self):
-    # TODO: implement
-    return []
+    gem_discounts = self._self_state._gem_discounts
+    claimable_nobles = []
+    for noble in self.noble_tiles:
+      if gem_utils.CanPayFor(noble.gem_type_requirements, gem_discounts):
+        claimable_nobles.append(noble)
+    return claimable_nobles
 
   @property
   def gem_counts(self):
