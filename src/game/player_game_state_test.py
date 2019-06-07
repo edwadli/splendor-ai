@@ -162,7 +162,7 @@ class TestPlayerGameState(unittest.TestCase):
 			setup.NewPlayerState()._replace(gems={GemType.GREEN: 1}),
 			setup.NewPlayerState()._replace(gems={GemType.WHITE: 1}),
 		]
-                game_state = setup.SinglePlayerEmptyGameState()._replace(
+		game_state = setup.SinglePlayerEmptyGameState()._replace(
 			player_states = player_states,
 			turn=0
 		)
