@@ -157,7 +157,7 @@ class PlayerGameState(object):
     else:
       return revealed_card
 
-  def GetNobleById(noble_id):
+  def GetNobleById(self, noble_id):
     for noble in self.noble_tiles:
       if noble.asset_id == noble_id:
         return noble

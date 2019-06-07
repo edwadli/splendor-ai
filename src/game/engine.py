@@ -142,7 +142,7 @@ def check_player_action(player_game_state, player_action):
                 player_action.purchased_card_id)
             if card is not None:
                 recently_purchased_gem_type = card.gem
-        discounts_required = player_action.noble_tile.gem_type_requirements
+        discounts_required = noble_tile.gem_type_requirements
         discounts_acquired = player_game_state.self_state.gem_discounts
         for gem_type in discounts_required:
             discount_acquired = discounts_acquired[gem_type]

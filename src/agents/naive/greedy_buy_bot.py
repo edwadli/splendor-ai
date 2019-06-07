@@ -32,5 +32,5 @@ class GreedyBuyBot(agent.Agent):
       action = agent.BuyCard(player_game_state, card_to_buy)
     claimable_nobles = player_game_state.GetClaimableNobles()
     if len(claimable_nobles) > 0:
-      action = action._replace(noble_tile_id=claimable_nobles[0])
+      action = action._replace(noble_tile_id=claimable_nobles[0].asset_id)
     return action
