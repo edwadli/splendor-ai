@@ -26,8 +26,8 @@ def GetGems(gem_counts):
 
 def GetDiscountedCost(cost, discount):
 	"""Returns the gems cost after discount."""
-	if cost[GemType.GOLD] != 0 or discount[GemType.GOLD] != 0:
-		raise ValueError("Cost and discount cannot include GOLD GemType")
+	if cost[GemType.GOLD] != 0:
+		raise ValueError("Cost cannot include GOLD GemType")
 	discounted_cost = collections.Counter(cost) - collections.Counter(discount)
 	return discounted_cost
 

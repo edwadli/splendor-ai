@@ -139,10 +139,9 @@ class PlayerGameState(object):
 
   def GetReservedCardById(self, asset_id):
     """Retrieves one of the current player's reserved DevelopmentCard."""
-    for cards in self.self_state.reserved_cards:
-      for card in cards:
-        if card.asset_id == asset_id:
-          return card
+    for card in self.self_state.reserved_cards:
+      if card.asset_id == asset_id:
+        return card
     return None
 
   def GetReservedOrRevealedCardById(self, asset_id):
