@@ -72,6 +72,21 @@ def NumNonGoldGems(gems):
 	           if gem_type != GemType.GOLD)
 
 
+def GetMaxCountGems(gems):
+	"""Returns the list of GemTypes that have the highest count."""
+	max_count = max(gems.values())
+	max_gems = [gem for gem, count in gems.iteritems()
+							if count == max_count]
+	return max_gems
+
+
+def GemsByCount(gems, reverse=False):
+	"""Returns a list of GemTypes from lowest to highest count."""
+	gem_types = gems.keys()
+	gem_types.sort(key=lambda k: gems[k], reverse=reverse)
+	return gem_types
+
+
 def VerifyNonNegativeGems(gems):
 	"""Returns that all gem values are nonnegative."""
 	return all(count >= 0 for count in gems.values())

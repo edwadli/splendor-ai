@@ -52,7 +52,9 @@ def CardsListAsString(cards):
   msg = ""
   for card in cards:
     msg += "{"
-    msg += "(" + str(card.points) + "|" + GemTypeToSymbol(card.gem) + ") "
+    msg += ("(" + str(card.points) + "|" +
+            GemTypeToSymbol(card.gem) + "|" +
+            card.asset_id + ") ")
     msg += "["
     msg += GemsAsString(card.cost, separator="  ")
     msg += "]"
@@ -75,7 +77,7 @@ def CardsByDeckAsString(cards_by_deck, game_rules):
 def NoblesAsString(noble_tiles):
   msg = ""
   for noble_tile in noble_tiles:
-    msg += "{(" + str(noble_tile.points) + ") ["
+    msg += "{(" + str(noble_tile.points) + "|" + noble_tile.asset_id + ") ["
     msg += GemsAsString(noble_tile.gem_type_requirements, separator="  ")
     msg += "]}\n"
   return msg

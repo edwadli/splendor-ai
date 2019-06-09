@@ -5,11 +5,13 @@ from src.game import driver
 from src.game import gem_utils
 from src.game import player_game_state
 
+
 class CliDriver(driver.Driver):
   """A game driver that prints turns and game state."""
   def RunGame(self):
     print self._IntroMessage()
     while True:
+      _ = raw_input()
       winners = self.GetWinners()
       if winners:
         print self._WinnerMessage(winners)
@@ -35,13 +37,23 @@ class CliDriver(driver.Driver):
       msg += "Players "
     msg += str(winners)
     msg += " won"
-    return msg
+    return msg  
 
   def _TurnMessage(self):
     return "Player " + str(self.game_state.turn) + "'s turn:"
 
   def _PlayerActionMessage(self, player_action):
-    msg = str(player_action)
+    msg = ""
+    msg += "Taking: " + cli_utils.GemsAsString(player_action.gems_taken, ", ") + "\n"
+    msg += "Return: " + cli_utils.GemsAsString(player_action.gems_returned, ", ") + "\n"
+    if player_action.purchased_card_id is not None:
+      msg += "Purchase: " + player_action.purchased_card_id + "\n"
+    if player_action.reserved_card_id is not None:
+      msg += "Reserve: " + player_action.reserved_card_id + "\n"
+    if player_action.topdeck_level is not None:
+      msg += "Reserve: " + cli_utils.DeckAsString(player_action.topdeck_level) + "\n"
+    if player_action.noble_tile_id is not None:
+      msg += "Noble: " + player_action.noble_tile_id + "\n"
     return msg
 
   def _GameStateMessage(self):
@@ -52,7 +64,6 @@ class CliDriver(driver.Driver):
     msg += "Cards:\n"
     msg += cli_utils.CardsByDeckAsString(
         self.game_state.development_cards, self.game_rules)
-    msg += "\n\n"
     msg += "Nobles:\n"
     msg += cli_utils.NoblesAsString(self.game_state.noble_tiles)
     return msg
