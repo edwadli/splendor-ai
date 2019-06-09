@@ -8,6 +8,19 @@ from src.proto.gem_proto import GemType
 from src.proto.player_action_proto import PlayerAction
 
 
+def AsFirstPerson(agent_cls, name="my"):
+  """Returns the given agent class wrapped with first-person viewer."""
+  class FirstPersonAgentWrapper(agent_cls):
+    def PlayTurn(self, player_game_state):
+      print name + " turn:\n"
+      print "Reserved cards:"
+      print cli_utils.CardsListAsString(player_game_state.self_state.reserved_cards)
+      print "Gems:"
+      print cli_utils.GemsAsString(player_game_state.self_state.gem_counts) + "\n"
+      return super(FirstPersonAgentWrapper, self).PlayTurn(player_game_state)
+  return FirstPersonAgentWrapper
+
+
 class CliAgent(agent.Agent):
   """An agent that queries the user for a game action."""
   def PlayTurn(self, player_game_state):

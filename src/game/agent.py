@@ -51,10 +51,12 @@ def ReserveCardAndTakeGold(player_game_state, card):
       noble_tile_id=None)
 
 
-def TakeGems(gems):
+def TakeGems(gems, returned=None):
+  if returned is None:
+    returned = {}
   return PlayerAction(
       gems_taken=collections.Counter(gems),
-      gems_returned=collections.Counter(),
+      gems_returned=collections.Counter(returned),
       purchased_card_id=None,
       reserved_card_id=None,
       topdeck_level=None,

@@ -90,7 +90,9 @@ def check_player_action(player_game_state, player_action):
     excess_gems = num_gems_taken - player_game_state.GemLimit()
     num_gems_returned = gem_utils.NumGems(gems_returned)
     if excess_gems - num_gems_returned > 0:
-        raise ValueError("Need to return more gems")
+        raise ValueError("Need to return more gems.\n" +
+                         "Gems taken:\n" + str(gems_taken) + "\n" +
+                         "Gems returned:\n" + str(gems_returned) + "\n")
 
     if is_reserved_revealed_card(player_action):
         # Must not exceed reserve limit.
