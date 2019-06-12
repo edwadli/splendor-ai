@@ -16,4 +16,7 @@ GameResult = collections.namedtuple(
 
     # The number of rounds played.
     "num_rounds_played",
+
+    # The GameHistory.
+    "game_history",
   ])

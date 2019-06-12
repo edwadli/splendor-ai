@@ -37,8 +37,7 @@ def BuyCard(player_game_state, card):
 
 
 def ReserveCardAndTakeGold(player_game_state, card):
-  if (player_game_state.gem_counts[GemType.GOLD] > 0 and
-      player_game_state.GemLimit() > 0):
+  if (player_game_state.gem_counts[GemType.GOLD] > 0):
     gold_taken = 1
   else:
     gold_taken = 0

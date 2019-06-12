@@ -29,12 +29,13 @@ class RoundRobinRunner(object):
         for _ in range(self._games_per_matchup):
           agents = self._InitializeAgents(agent_ordering)
           game_driver = driver.Driver(agents, gamebox.GAMEBOX)
-          winners = game_driver.RunGame(early_stop_round=1000)
+          winners = game_driver.RunGame(early_stop_round=50)
           results.append(GameResult(
               agent_ids=agent_ordering,
               winners=winners,
               final_game_state=game_driver.game_state,
-              num_rounds_played=game_driver.num_rounds_played))
+              num_rounds_played=game_driver.num_rounds_played,
+              game_history=None))
           yield results
 
   def Run(self):
