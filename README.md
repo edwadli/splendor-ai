@@ -13,6 +13,11 @@ To run the round robin tournament:
 python -B -m src.game.tournament.round_robin_main
 ```
 
+To run a CLI demo that steps through a game turn-by-turn:
+```
+python -B -m src.demo.game_cli
+```
+
 ## Development
 
 To run all unit tests:
