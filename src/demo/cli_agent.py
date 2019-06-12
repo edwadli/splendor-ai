@@ -13,12 +13,23 @@ def AsFirstPerson(agent_cls, name="my"):
   class FirstPersonAgentWrapper(agent_cls):
     def PlayTurn(self, player_game_state):
       print name + " turn:\n"
+      print "Num points: " + str(player_game_state.self_state.num_points)
       print "Reserved cards:"
       print cli_utils.CardsListAsString(player_game_state.self_state.reserved_cards)
       print "Gems:"
       print cli_utils.GemsAsString(player_game_state.self_state.gem_counts) + "\n"
       return super(FirstPersonAgentWrapper, self).PlayTurn(player_game_state)
   return FirstPersonAgentWrapper
+
+
+def AsThirdPerson(agent_cls, name="opp's"):
+  """Returns the given agent class wrapped with third-person viewer."""
+  class ThirdPersonAgentWrapper(agent_cls):
+    def PlayTurn(self, player_game_state):
+      print name + " turn:\n"
+      print "Num points: " + str(player_game_state.self_state.num_points)
+      return super(ThirdPersonAgentWrapper, self).PlayTurn(player_game_state)
+  return ThirdPersonAgentWrapper
 
 
 class CliAgent(agent.Agent):

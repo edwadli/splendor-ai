@@ -4,6 +4,7 @@ from src.game import agent
 from src.game import engine
 from src.game import player_game_state
 from src.game import setup
+from src.proto.game_history_proto import GameHistory
 
 class Driver(object):
 	"""Orchestrates the game states and agents.
@@ -58,6 +59,10 @@ class Driver(object):
 		for player_agent in self._agents:
 			if not isinstance(player_agent, agent.Agent):
 				raise TypeError("Agents must be of type Agent")
+		# Store turn history (list of PlayerActions). Note that
+		# the index mod len(self._agents) is the agent index.
+		self._history = []
+		self._initial_game_state = self._game_state
 
 	def RunNextTurn(self):
 		"""Returns the next agent's PlayerAction and updates the game state."""
@@ -111,7 +116,8 @@ class Driver(object):
 			      self.num_rounds_played >= early_stop_round):
 				return tuple()
 			else:
-				_ = self.RunNextTurn()
+				player_action = self.RunNextTurn()
+				self._history.append(player_action)
 
 	@property
 	def game_state(self):
@@ -124,4 +130,11 @@ class Driver(object):
 	@property
 	def num_rounds_played(self):
 		return self._num_turns_played / 4
+
+	@property
+	def game_history(self):
+		return GameHistory(
+				game_rules=self._game_rules,
+				initial_game_state=self._initial_game_state,
+				player_action_history=self._history)
 	

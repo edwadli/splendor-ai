@@ -5,13 +5,17 @@ import argparse
 from src.game.tournament import round_robin
 from src.game.tournament import game_result_utils
 from src.agents.naive import greedy_buy_bot
+from src.agents.value_man import value_buy_bot
 
 
 AGENT_CLASSES = {
-  "agent_1": greedy_buy_bot.GreedyBuyBot,
-  "agent_2": greedy_buy_bot.GreedyBuyBot,
-  "agent_3": greedy_buy_bot.GreedyBuyBot,
-  "agent_4": greedy_buy_bot.GreedyBuyBot,
+  "greedy_buy_bot_1": greedy_buy_bot.GreedyBuyBot,
+  "greedy_buy_bot_2": greedy_buy_bot.GreedyBuyBot,
+  "greedy_buy_bot_3": greedy_buy_bot.GreedyBuyBot,
+  "value_buy_bot_1": value_buy_bot.ValueBuyBot,
+  # "value_buy_bot_2": value_buy_bot.ValueBuyBot,
+  # "value_buy_bot_3": value_buy_bot.ValueBuyBot,
+  # "value_buy_bot_4": value_buy_bot.ValueBuyBot,
 }
 
 NUM_PLAYERS = 4

@@ -19,7 +19,8 @@ class GreedyBuyBot(agent.Agent):
     if card_to_buy is None:
       available_gems = player_game_state.gem_counts
       available_gem_types = gem_utils.GetNonEmptyGemTypes(available_gems)
-      available_gem_types.remove(GemType.GOLD)
+      if GemType.GOLD in available_gem_types:
+        available_gem_types.remove(GemType.GOLD)
       if (len(available_gem_types) == 1 and
           player_game_state.CanTakeTwo(available_gem_types[0]) and
           player_game_state.GemLimit() > 1):
