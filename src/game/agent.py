@@ -25,7 +25,7 @@ def BuyCard(player_game_state, card):
   gem_diff = collections.Counter(discounted_cost) - collections.Counter(self_gems)
   num_gold_needed = sum(gem_diff.values())
   gems_returned = collections.Counter({GemType.GOLD: num_gold_needed})
-  for gem_type, count in discounted_cost.iteritems():
+  for gem_type, count in discounted_cost.items():
     gems_returned[gem_type] = min(self_gems[gem_type], count)
   return PlayerAction(
       gems_taken=collections.Counter(),

@@ -81,7 +81,7 @@ def run_server(server_class=HTTPServer, handler_class=GameDriverHandler,
                port=80):
     server_address = ('', port)
     httpd = server_class(server_address, handler_class)
-    print 'Starting server...'
+    print('Starting server...')
     httpd.serve_forever()
 
 
