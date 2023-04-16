@@ -16,7 +16,7 @@ def CountGems(gems_list):
 def GetGems(gem_counts):
 	"""Returns a list of GemTypes given a dict from GemType to counts."""
 	gems_list = []
-	for gem_type, count in gem_counts.iteritems():
+	for gem_type, count in gem_counts.items():
 		if count < 0:
 			raise NotImplementedError("count cannot be negative")
 		for _ in range(count):
@@ -34,7 +34,7 @@ def GetDiscountedCost(cost, discount):
 
 def CanTakeFrom(gems_available, gems_taken):
 	"""Returns whether 'gems_taken' can be taken from 'gems_available'."""
-	for gem_type, count in gems_taken.iteritems():
+	for gem_type, count in gems_taken.items():
 		if gems_available[gem_type] < count:
 			return False
 	return True
@@ -68,21 +68,21 @@ def NumGems(gems):
 
 def NumNonGoldGems(gems):
 	"""Returns the number of non-gold gems in the defaultdict(int)."""
-	return sum(count for gem_type, count in gems.iteritems()
+	return sum(count for gem_type, count in gems.items()
 	           if gem_type != GemType.GOLD)
 
 
 def GetMaxCountGems(gems):
 	"""Returns the list of GemTypes that have the highest count."""
 	max_count = max(gems.values())
-	max_gems = [gem for gem, count in gems.iteritems()
+	max_gems = [gem for gem, count in gems.items()
 							if count == max_count]
 	return max_gems
 
 
 def GemsByCount(gems, reverse=False):
 	"""Returns a list of GemTypes from lowest to highest count."""
-	gem_types = gems.keys()
+	gem_types = list(gems.keys())
 	gem_types.sort(key=lambda k: gems[k], reverse=reverse)
 	return gem_types
 
@@ -93,7 +93,7 @@ def VerifyNonNegativeGems(gems):
 
 
 def AllZerosExcept(gems, *gem_types):
-	for gem_type, count in gems.iteritems():
+	for gem_type, count in gems.items():
 		if gem_type in gem_types:
 			continue
 		if count != 0:
@@ -103,7 +103,7 @@ def AllZerosExcept(gems, *gem_types):
 
 def GetNonEmptyGemTypes(gems):
 	non_empty_types = []
-	for gem_type, count in gems.iteritems():
+	for gem_type, count in gems.items():
 		if count <= 0:
 			continue
 		non_empty_types.append(gem_type)

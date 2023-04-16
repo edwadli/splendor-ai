@@ -24,7 +24,7 @@ def _Main():
   while True:
     driver = _SetupGame()
     driver.RunGame()
-    user_input = raw_input("Play again? Y/N")
+    user_input = input("Play again? Y/N")
     if user_input.lower() != "y":
       break
 

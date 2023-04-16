@@ -12,12 +12,12 @@ def AsFirstPerson(agent_cls, name="my"):
   """Returns the given agent class wrapped with first-person viewer."""
   class FirstPersonAgentWrapper(agent_cls):
     def PlayTurn(self, player_game_state):
-      print name + " turn:\n"
-      print "Num points: " + str(player_game_state.self_state.num_points)
-      print "Reserved cards:"
-      print cli_utils.CardsListAsString(player_game_state.self_state.reserved_cards)
-      print "Gems:"
-      print cli_utils.GemsAsString(player_game_state.self_state.gem_counts) + "\n"
+      print(name + " turn:\n")
+      print("Num points: " + str(player_game_state.self_state.num_points))
+      print("Reserved cards:")
+      print(cli_utils.CardsListAsString(player_game_state.self_state.reserved_cards))
+      print("Gems:")
+      print(cli_utils.GemsAsString(player_game_state.self_state.gem_counts) + "\n")
       return super(FirstPersonAgentWrapper, self).PlayTurn(player_game_state)
   return FirstPersonAgentWrapper
 
@@ -26,8 +26,8 @@ def AsThirdPerson(agent_cls, name="opp's"):
   """Returns the given agent class wrapped with third-person viewer."""
   class ThirdPersonAgentWrapper(agent_cls):
     def PlayTurn(self, player_game_state):
-      print name + " turn:\n"
-      print "Num points: " + str(player_game_state.self_state.num_points)
+      print(name + " turn:\n")
+      print("Num points: " + str(player_game_state.self_state.num_points))
       return super(ThirdPersonAgentWrapper, self).PlayTurn(player_game_state)
   return ThirdPersonAgentWrapper
 
@@ -36,14 +36,14 @@ class CliAgent(agent.Agent):
   """An agent that queries the user for a game action."""
   def PlayTurn(self, player_game_state):
     """Returns a PlayerAction based on CLI input."""
-    print self._ActionOptions(player_game_state)
+    print(self._ActionOptions(player_game_state))
     while True:
-      user_input = raw_input()
+      user_input = input()
       player_action = self._ParseInput(user_input)
       if player_action is not None:
         break
       else:
-        print "Unable to parse, try again:\n"
+        print("Unable to parse, try again:\n")
     return player_action
 
   def _ActionOptions(self, player_game_state):
@@ -58,7 +58,7 @@ class CliAgent(agent.Agent):
     msg = ""
     gem_counts = player_game_state.gem_counts
     num_available = sum(
-        value for gem_type, value in gem_counts.iteritems()
+        value for gem_type, value in gem_counts.items()
         if gem_type != GemType.GOLD)
     if num_available == 0:
       msg += "(Can't take gems)"
@@ -86,7 +86,7 @@ class CliAgent(agent.Agent):
       msg += " (return " + str(return_num_singles) + ")"
     msg += ":\n"
     gem_types = [
-        gem_type for gem_type, count in gem_counts.iteritems()
+        gem_type for gem_type, count in gem_counts.items()
         if count > 0 and gem_type != GemType.GOLD]
     for taking_option in itertools.combinations(gem_types, 3):
       for gem_type in taking_option:

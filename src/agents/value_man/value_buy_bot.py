@@ -231,7 +231,7 @@ class ValueBuyBot(agent.Agent):
     total_gems = (collections.Counter(gems_owned) +
                   collections.Counter(gems_to_take))
     unnecessary_gems = collections.Counter()
-    for gem, count in total_gems.iteritems():
+    for gem, count in total_gems.items():
       if gem == GemType.GOLD:
         continue  # never return gold
       unnecessary_count = count - gems_needed[gem]

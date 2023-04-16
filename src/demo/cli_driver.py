@@ -9,18 +9,18 @@ from src.game import player_game_state
 class CliDriver(driver.Driver):
   """A game driver that prints turns and game state."""
   def RunGame(self):
-    print self._IntroMessage()
+    print(self._IntroMessage())
     while True:
-      _ = raw_input()
+      _ = input()
       winners = self.GetWinners()
       if winners:
-        print self._WinnerMessage(winners)
+        print(self._WinnerMessage(winners))
         return winners
       else:
-        print self._GameStateMessage()
-        print self._TurnMessage()
+        print(self._GameStateMessage())
+        print(self._TurnMessage())
         player_action = self.RunNextTurn()
-        print self._PlayerActionMessage(player_action)
+        print(self._PlayerActionMessage(player_action))
 
   def _IntroMessage(self):
     msg = "==============================\n\n\n"

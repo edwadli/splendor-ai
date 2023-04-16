@@ -42,7 +42,7 @@ def DeckAsString(deck):
 
 def GemsAsString(gems, separator="\n"):
   items = []
-  for gem_type, count in gems.iteritems():
+  for gem_type, count in gems.items():
     items.append(GemTypeToSymbol(gem_type) + ":" + str(count))
   msg = "  ".join(items)
   return msg
@@ -66,7 +66,7 @@ def CardsByDeckAsString(cards_by_deck, game_rules):
   revealed_cards = player_game_state.GetRevealedCards(
       cards_by_deck, game_rules)
   msg = ""
-  for deck, cards in revealed_cards.iteritems():
+  for deck, cards in revealed_cards.items():
     msg += DeckAsString(deck) + ": "
     num_cards_left = len(cards_by_deck[deck]) - len(revealed_cards[deck])
     msg += "[" + str(num_cards_left) + "] "

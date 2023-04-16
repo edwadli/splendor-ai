@@ -23,7 +23,7 @@ def GetRevealedCards(development_cards_dict, game_rules):
   """
   revealed_cards = collections.defaultdict(list)
   cards_per_level = game_rules.num_cards_revealed_per_level
-  for deck, cards in development_cards_dict.iteritems():
+  for deck, cards in development_cards_dict.items():
     revealed_cards[deck] = cards[-cards_per_level:]
   return revealed_cards
 
